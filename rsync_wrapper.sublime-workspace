@@ -1,0 +1,471 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"long",
+				"long_args"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "build.py",
+			"settings":
+			{
+				"buffer_size": 1220,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "helpers.py",
+			"settings":
+			{
+				"buffer_size": 3275,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/adrien/Projects/code/UnrealEngine/Engine/Build/BatchFiles/Linux/Setup.sh",
+			"settings":
+			{
+				"buffer_size": 5547,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/adrien/Projects/code/UnrealEngine/Engine/Build/BatchFiles/Linux/BuildThirdParty.sh",
+			"settings":
+			{
+				"buffer_size": 13133,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "options.py",
+			"settings":
+			{
+				"buffer_size": 3353,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "test.py",
+			"settings":
+			{
+				"buffer_size": 29,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "__init__.py",
+			"settings":
+			{
+				"buffer_size": 236,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 161.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"view ",
+				"View: Toggle Menu"
+			],
+			[
+				"view menu",
+				"View: Toggle Menu"
+			],
+			[
+				"pack",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 508.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/adrien/Projects/code/py_rsync_wrapper"
+	],
+	"file_history":
+	[
+		"/home/adrien/Projects/code/UnrealEngine/Build/BatchFiles/Linux/BuildThirdParty.sh",
+		"/home/adrien/Projects/code/UnrealEngine/Engine/Build/BatchFiles/Linux/BuildThirdParty.log",
+		"/home/adrien/Projects/code/UnrealEngine/Setup.sh",
+		"/home/adrien/Projects/code/py_rsync_wrapper/options.json",
+		"/home/adrien/Projects/code/py_rsync_wrapper/options.py",
+		"/home/adrien/Projects/code/py_rsync_wrapper/tools.py",
+		"/home/adrien/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+		"/home/adrien/.config/sublime-text-3/Packages/Default/Preferences.sublime-settings"
+	],
+	"find":
+	{
+		"height": 45.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"BuildHLSLCC",
+			"CLANG_TO_USE",
+			"3.8",
+			"long_key",
+			"import",
+			"args",
+			"size",
+			"font"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 3,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "build.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1220,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								33,
+								33
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "helpers.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3275,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2261,
+								2261
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1587.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/home/adrien/Projects/code/UnrealEngine/Engine/Build/BatchFiles/Linux/Setup.sh",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5547,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5461,
+								5461
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 3519.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/home/adrien/Projects/code/UnrealEngine/Engine/Build/BatchFiles/Linux/BuildThirdParty.sh",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 13133,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3927,
+								3927
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3106.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "options.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3353,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3233,
+								3233
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "test.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 29,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								29,
+								29
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "__init__.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 236,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								38,
+								38
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 31.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "rsync_wrapper.sublime-project",
+	"replace":
+	{
+		"height": 58.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 263.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

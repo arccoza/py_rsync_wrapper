@@ -1,4 +1,5 @@
 import pexpect
+from helpers import Job
 
 
 class Rsync(object):

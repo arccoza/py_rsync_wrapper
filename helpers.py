@@ -1,7 +1,7 @@
 import re
 from pprint import pprint
 from tools import PartialFormatter
-from options import short_args, long_args
+from options import short_options, long_options
 
 
 class Target(object):
@@ -16,7 +16,7 @@ class Target(object):
 
     # test_str = u"root@al-mnemosyne.local::bob/videos/"
     # pprint(re.search(self.re_url, test_str).groupdict())
-    pass
+    # pass
 
   def parse(self, url):
     self.parts = re.search(self.re_url, url).groupdict() if url else {}
@@ -64,27 +64,65 @@ class Target(object):
     return self.render()
 
 
-class Args(object):
+class Options(object):
   def __init__(self, *args):
+    self.re_opts = re.compile(u'(?:(?:^|\s)-(?P<sopt>[^-\s]+))|(?:(?:^|\s)--(?P<lopt>(?P<k>[^-\s=]+)=?(?P<v>[^-\s])?))')
     self._short = {}
     self._long = {}
+    self._opts = {}
 
-  def __setattr__(self, key, value):
-    if key in (u'_short', u'_long'):
-      self.__dict__[key] = value
-      return
+  def parse(self, opts_str):
+    mchs = self.re_opts.finditer(opts_str) if opts_str else {}
+    opts = {}
+    # opts = {o:m['v'] for m in [m.groupdict() for m in mchs] for o in (lambda m: m['sopt'] if m['sopt'] else [m['k']])(m)}
+    for m in mchs:
+      m = m.groupdict()
+      if m['k']:
+        opts[m['k']] = m['v']
+      else:
+        for o in m['sopt']:
+          opts[short_options[o]['long']] = short_options[o]['value']
+    pprint(opts)
+    # for o in opts:
+    #   pprint(o.groupdict())
+    # pprint(opts)
 
-    try:
-      long_key = short_args[key] if len(key) == 1 else None
-    except KeyError as ex:
-      pass
+  def render(self):
+    pass
 
-    try:
-      short_key = long_args[key] if len(key) > 1 else None
-    except KeyError as ex:
-      pass
+  # def __setattr__(self, key, value):
+  #   if key in (u'_short', u'_long'):
+  #     self.__dict__[key] = value
+  #     return
+
+  #   try:
+  #     long_key = short_options[key] if len(key) == 1 else None
+  #   except KeyError as ex:
+  #     pass
+
+  #   try:
+  #     short_key = long_options[key] if len(key) > 1 else None
+  #   except KeyError as ex:
+  #     pass
 
 
+class Job(object):
+  def __init__(self, *args):
+    self.local = Target()
+    self.remote = Target()
+    self.options = Options()
+
+  def list(self, target='remote'):
+    pass
+
+  def push(self):
+    pass
+
+  def pull(self):
+    pass
+
+  def sync(self):
+    pass
 
 
 
@@ -93,5 +131,7 @@ if __name__ == '__main__':
   # t.method = u':'
   # pprint(t.__dict__)
   # pprint(str(t))
-  a = Args()
+  a = Options()
   a.grumble = True
+  a.parse(u'rsync -az -a --delete=1 --force vger.rutgers.edu::cvs/ /var/www/cvs/vger/')
+  # pprint(a.__dict__)

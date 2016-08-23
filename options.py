@@ -2,7 +2,7 @@ import json
 from pprint import pprint
 
 
-short_args = {
+short_options = {
   # 'v': 'verbose',
   # 'q': 'quiet',
   # 'c': 'checksum',
@@ -47,7 +47,7 @@ short_args = {
   # 'h': 'help',
 }
 
-long_args = {
+long_options = {
   # 'verbose': 'v',
   # 'quiet': 'q',
   # 'checksum': 'c',
@@ -150,8 +150,8 @@ long_args = {
 
 with open('options.json') as f:
   options = json.load(f)
-  short_args = options[u'short']
-  long_args = options[u'long']
+  short_options = options[u'short']
+  long_options = options[u'long']
   
   if __name__ == '__main__':
     pprint(short_args)
