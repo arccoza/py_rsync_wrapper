@@ -1,1 +1,936 @@
-{"short": {"0": {"value": null, "long": "from0", "desc": "all *from/filter files are delimited by 0s"}, "4": {"value": null, "long": "ipv4", "desc": "prefer IPv4"}, "6": {"value": null, "long": "ipv6", "desc": "prefer IPv6"}, "8": {"value": null, "long": "8-bit-output", "desc": "leave high-bit chars unescaped in output"}, "A": {"value": null, "long": "acls", "desc": "preserve ACLs (implies -p)"}, "C": {"value": null, "long": "cvs-exclude", "desc": "auto-ignore files in the same way CVS does"}, "B": {"value": "SIZE", "long": "block-size", "desc": "force a fixed checksum block-size"}, "E": {"value": null, "long": "executability", "desc": "preserve executability"}, "D": {"value": null, "long": null, "desc": null}, "F": {"value": null, "long": null, "desc": null}, "I": {"value": null, "long": "ignore-times", "desc": "don't skip files that match size and time"}, "H": {"value": null, "long": "hard-links", "desc": "preserve hard links"}, "K": {"value": null, "long": "keep-dirlinks", "desc": "treat symlinked dir on receiver as dir"}, "J": {"value": null, "long": "omit-link-times", "desc": "omit symlinks from --times"}, "M": {"value": "OVERRIDE", "long": "dparam", "desc": "override global daemon config parameter"}, "L": {"value": null, "long": "copy-links", "desc": "transform symlink into referent file/dir"}, "O": {"value": null, "long": "omit-dir-times", "desc": "omit directories from --times"}, "P": {"value": null, "long": null, "desc": null}, "S": {"value": null, "long": "sparse", "desc": "handle sparse files efficiently"}, "R": {"value": null, "long": "relative", "desc": "use relative path names"}, "T": {"value": "DIR", "long": "temp-dir", "desc": "create temporary files in directory DIR"}, "W": {"value": null, "long": "whole-file", "desc": "copy files whole (w/o delta-xfer algorithm)"}, "X": {"value": null, "long": "xattrs", "desc": "preserve extended attributes"}, "a": {"value": null, "long": "archive", "desc": "archive mode; equals -rlptgoD (no -H,-A,-X)"}, "c": {"value": null, "long": "checksum", "desc": "skip based on checksum, not mod-time & size"}, "b": {"value": null, "long": "backup", "desc": "make backups (see --suffix & --backup-dir)"}, "e": {"value": "COMMAND", "long": "rsh", "desc": "specify the remote shell to use"}, "d": {"value": null, "long": "dirs", "desc": "transfer directories without recursing"}, "g": {"value": null, "long": "group", "desc": "preserve group"}, "f": {"value": "RULE", "long": "filter", "desc": "add a file-filtering RULE"}, "i": {"value": null, "long": "itemize-changes", "desc": "output a change-summary for all updates"}, "h": {"value": null, "long": "help", "desc": "show this help (if used after --daemon)"}, "k": {"value": null, "long": "copy-dirlinks", "desc": "transform symlink to dir into referent dir"}, "m": {"value": null, "long": "prune-empty-dirs", "desc": "prune empty directory chains from file-list"}, "l": {"value": null, "long": "links", "desc": "copy symlinks as symlinks"}, "o": {"value": null, "long": "owner", "desc": "preserve owner (super-user only)"}, "n": {"value": null, "long": "dry-run", "desc": "perform a trial run with no changes made"}, "q": {"value": null, "long": "quiet", "desc": "suppress non-error messages"}, "p": {"value": null, "long": "perms", "desc": "preserve permissions"}, "s": {"value": null, "long": "protect-args", "desc": "no space-splitting; wildcard chars only"}, "r": {"value": null, "long": "recursive", "desc": "recurse into directories"}, "u": {"value": null, "long": "update", "desc": "skip files that are newer on the receiver"}, "t": {"value": null, "long": "times", "desc": "preserve modification times"}, "v": {"value": null, "long": "verbose", "desc": "increase verbosity"}, "y": {"value": null, "long": "fuzzy", "desc": "find similar file for basis if no dest file"}, "x": {"value": null, "long": "one-file-system", "desc": "don't cross filesystem boundaries"}, "z": {"value": null, "long": "compress", "desc": "compress file data during the transfer"}}, "long": {"preallocate": {"short": null, "value": null, "desc": "allocate dest files before writing"}, "size-only": {"short": null, "value": null, "desc": "skip files that match in size"}, "partial": {"short": null, "value": null, "desc": "keep partially transferred files"}, "help": {"short": "h", "value": null, "desc": "show this help (if used after --daemon)"}, "log-file": {"short": null, "value": "FILE", "desc": "override the \"log file\" setting"}, "existing": {"short": null, "value": null, "desc": "skip creating new files on receiver"}, "list-only": {"short": null, "value": null, "desc": "list the files instead of copying them"}, "no-motd": {"short": null, "value": null, "desc": "suppress daemon-mode MOTD (see caveat)"}, "protocol": {"short": null, "value": "NUM", "desc": "force an older protocol version to be used"}, "suffix": {"short": null, "value": "SUFFIX", "desc": "backup suffix (default ~ w/o --backup-dir)"}, "iconv": {"short": null, "value": "CONVERT_SPEC", "desc": "request charset conversion of filenames"}, "group": {"short": "g", "value": null, "desc": "preserve group"}, "delete-excluded": {"short": null, "value": null, "desc": "also delete excluded files from dest dirs"}, "max-delete": {"short": null, "value": "NUM", "desc": "don't delete more than NUM files"}, "include-from": {"short": null, "value": "FILE", "desc": "read include patterns from FILE"}, "include": {"short": null, "value": "PATTERN", "desc": "don't exclude files matching PATTERN"}, "copy-unsafe-links": {"short": null, "value": null, "desc": "only \"unsafe\" symlinks are transformed"}, "info": {"short": null, "value": "FLAGS", "desc": "fine-grained informational verbosity"}, "modify-window": {"short": null, "value": "NUM", "desc": "compare mod-times with reduced accuracy"}, "omit-link-times": {"short": "J", "value": null, "desc": "omit symlinks from --times"}, "fake-super": {"short": null, "value": null, "desc": "store/recover privileged attrs using xattrs"}, "daemon": {"short": null, "value": null, "desc": "run as an rsync daemon"}, "password-file": {"short": null, "value": "FILE", "desc": "read daemon-access password from FILE"}, "delete-delay": {"short": null, "value": null, "desc": "find deletions during, delete after"}, "rsync-path": {"short": null, "value": "PROGRAM", "desc": "specify the rsync to run on remote machine"}, "specials": {"short": null, "value": null, "desc": "preserve special files"}, "ignore-times": {"short": "I", "value": null, "desc": "don't skip files that match size and time"}, "read-batch": {"short": null, "value": "FILE", "desc": "read a batched update from FILE"}, "timeout": {"short": null, "value": "SECONDS", "desc": "set I/O timeout in seconds"}, "debug": {"short": null, "value": "FLAGS", "desc": "fine-grained debug verbosity"}, "no-detach": {"short": null, "value": null, "desc": "do not detach from the parent"}, "force": {"short": null, "value": null, "desc": "force deletion of dirs even if not empty"}, "temp-dir": {"short": "T", "value": "DIR", "desc": "create temporary files in directory DIR"}, "prune-empty-dirs": {"short": "m", "value": null, "desc": "prune empty directory chains from file-list"}, "relative": {"short": "R", "value": null, "desc": "use relative path names"}, "delete-before": {"short": null, "value": null, "desc": "receiver deletes before xfer, not during"}, "port": {"short": null, "value": "PORT", "desc": "listen on alternate port number"}, "append": {"short": null, "value": null, "desc": "append data onto shorter files"}, "stats": {"short": null, "value": null, "desc": "give some file-transfer stats"}, "human-readable": {"short": "h", "value": null, "desc": "output numbers in a human-readable format"}, "inplace": {"short": null, "value": null, "desc": "update destination files in-place"}, "8-bit-output": {"short": "8", "value": null, "desc": "leave high-bit chars unescaped in output"}, "backup-dir": {"short": null, "value": "DIR", "desc": "make backups into hierarchy based in DIR"}, "version": {"short": null, "value": null, "desc": "print version number"}, "out-format": {"short": null, "value": "FORMAT", "desc": "output updates using the specified FORMAT"}, "progress": {"short": null, "value": null, "desc": "show progress during transfer"}, "omit-dir-times": {"short": "O", "value": null, "desc": "omit directories from --times"}, "dirs": {"short": "d", "value": null, "desc": "transfer directories without recursing"}, "sparse": {"short": "S", "value": null, "desc": "handle sparse files efficiently"}, "munge-links": {"short": null, "value": null, "desc": "munge symlinks to make them safer"}, "remote-option": {"short": "M", "value": "OPTION", "desc": "send OPTION to the remote side only"}, "address": {"short": null, "value": "ADDRESS", "desc": "bind to the specified address"}, "dparam": {"short": "M", "value": "OVERRIDE", "desc": "override global daemon config parameter"}, "super": {"short": null, "value": null, "desc": "receiver attempts super-user activities"}, "write-batch": {"short": null, "value": "FILE", "desc": "write a batched update to FILE"}, "outbuf": {"short": null, "value": "N|L|B", "desc": "set out buffering to None, Line, or Block"}, "checksum": {"short": "c", "value": null, "desc": "skip based on checksum, not mod-time & size"}, "quiet": {"short": "q", "value": null, "desc": "suppress non-error messages"}, "times": {"short": "t", "value": null, "desc": "preserve modification times"}, "filter": {"short": "f", "value": "RULE", "desc": "add a file-filtering RULE"}, "ignore-existing": {"short": null, "value": null, "desc": "skip updating files that exist on receiver"}, "sockopts": {"short": null, "value": "OPTIONS", "desc": "specify custom TCP options"}, "backup": {"short": "b", "value": null, "desc": "make backups (see --suffix & --backup-dir)"}, "log-file-format": {"short": null, "value": "FMT", "desc": "override the \"log format\" setting"}, "verbose": {"short": "v", "value": null, "desc": "increase verbosity"}, "itemize-changes": {"short": "i", "value": null, "desc": "output a change-summary for all updates"}, "msgs2stderr": {"short": null, "value": null, "desc": "special output handling for debugging"}, "safe-links": {"short": null, "value": null, "desc": "ignore symlinks that point outside the tree"}, "chmod": {"short": null, "value": "CHMOD", "desc": "affect file and/or directory permissions"}, "owner": {"short": "o", "value": null, "desc": "preserve owner (super-user only)"}, "groupmap": {"short": null, "value": "STRING", "desc": "custom groupname mapping"}, "append-verify": {"short": null, "value": null, "desc": "--append w/old data in file checksum"}, "min-size": {"short": null, "value": "SIZE", "desc": "don't transfer any file smaller than SIZE"}, "skip-compress": {"short": null, "value": "LIST", "desc": "skip compressing files with suffix in LIST"}, "block-size": {"short": "B", "value": "SIZE", "desc": "force a fixed checksum block-size"}, "compress-level": {"short": null, "value": "NUM", "desc": "explicitly set compression level"}, "ipv4": {"short": "4", "value": null, "desc": "prefer IPv4"}, "whole-file": {"short": "W", "value": null, "desc": "copy files whole (w/o delta-xfer algorithm)"}, "ipv6": {"short": "6", "value": null, "desc": "prefer IPv6"}, "blocking-io": {"short": null, "value": null, "desc": "use blocking I/O for the remote shell"}, "rsh": {"short": "e", "value": "COMMAND", "desc": "specify the remote shell to use"}, "usermap": {"short": null, "value": "STRING", "desc": "custom username mapping"}, "ignore-errors": {"short": null, "value": null, "desc": "delete even if there are I/O errors"}, "files-from": {"short": null, "value": "FILE", "desc": "read list of source-file names from FILE"}, "executability": {"short": "E", "value": null, "desc": "preserve executability"}, "from0": {"short": "0", "value": null, "desc": "all *from/filter files are delimited by 0s"}, "fuzzy": {"short": "y", "value": null, "desc": "find similar file for basis if no dest file"}, "no-OPTION": {"short": null, "value": null, "desc": "turn off an implied OPTION (e.g. --no-D)"}, "max-size": {"short": null, "value": "SIZE", "desc": "don't transfer any file larger than SIZE"}, "devices": {"short": null, "value": null, "desc": "preserve device files (super-user only)"}, "del": {"short": null, "value": null, "desc": "an alias for --delete-during"}, "ignore-missing-args": {"short": null, "value": null, "desc": "ignore missing source args without error"}, "exclude-from": {"short": null, "value": "FILE", "desc": "read exclude patterns from FILE"}, "xattrs": {"short": "X", "value": null, "desc": "preserve extended attributes"}, "delete": {"short": null, "value": null, "desc": "delete extraneous files from dest dirs"}, "keep-dirlinks": {"short": "K", "value": null, "desc": "treat symlinked dir on receiver as dir"}, "remove-source-files": {"short": null, "value": null, "desc": "sender removes synchronized files (non-dir)"}, "delete-after": {"short": null, "value": null, "desc": "receiver deletes after transfer, not during"}, "copy-dirlinks": {"short": "k", "value": null, "desc": "transform symlink to dir into referent dir"}, "links": {"short": "l", "value": null, "desc": "copy symlinks as symlinks"}, "perms": {"short": "p", "value": null, "desc": "preserve permissions"}, "no-implied-dirs": {"short": null, "value": null, "desc": "don't send implied dirs with --relative"}, "exclude": {"short": null, "value": "PATTERN", "desc": "exclude files matching PATTERN"}, "dry-run": {"short": "n", "value": null, "desc": "perform a trial run with no changes made"}, "archive": {"short": "a", "value": null, "desc": "archive mode; equals -rlptgoD (no -H,-A,-X)"}, "delay-updates": {"short": null, "value": null, "desc": "put all updated files into place at end"}, "recursive": {"short": "r", "value": null, "desc": "recurse into directories"}, "cvs-exclude": {"short": "C", "value": null, "desc": "auto-ignore files in the same way CVS does"}, "protect-args": {"short": "s", "value": null, "desc": "no space-splitting; wildcard chars only"}, "partial-dir": {"short": null, "value": "DIR", "desc": "put a partially transferred file into DIR"}, "one-file-system": {"short": "x", "value": null, "desc": "don't cross filesystem boundaries"}, "bwlimit": {"short": null, "value": "RATE", "desc": "limit socket I/O bandwidth"}, "acls": {"short": "A", "value": null, "desc": "preserve ACLs (implies -p)"}, "numeric-ids": {"short": null, "value": null, "desc": "don't map uid/gid values by user/group name"}, "config": {"short": null, "value": "FILE", "desc": "specify alternate rsyncd.conf file"}, "hard-links": {"short": "H", "value": null, "desc": "preserve hard links"}, "compress": {"short": "z", "value": null, "desc": "compress file data during the transfer"}, "update": {"short": "u", "value": null, "desc": "skip files that are newer on the receiver"}, "contimeout": {"short": null, "value": "SECONDS", "desc": "set daemon connection timeout in seconds"}, "delete-missing-args": {"short": null, "value": null, "desc": "delete missing source args from destination"}, "checksum-seed": {"short": null, "value": "NUM", "desc": "set block/file checksum seed (advanced)"}, "link-dest": {"short": null, "value": "DIR", "desc": "hardlink to files in DIR when unchanged"}, "only-write-batch": {"short": null, "value": "FILE", "desc": "like --write-batch but w/o updating dest"}, "chown": {"short": null, "value": "USER:GROUP", "desc": "simple username/groupname mapping"}, "delete-during": {"short": null, "value": null, "desc": "receiver deletes during the transfer"}, "copy-dest": {"short": null, "value": "DIR", "desc": "... and include copies of unchanged files"}, "compare-dest": {"short": null, "value": "DIR", "desc": "also compare received files relative to DIR"}, "copy-links": {"short": "L", "value": null, "desc": "transform symlink into referent file/dir"}}}
+{
+  "long": {
+    "8-bit-output": {
+      "desc": "leave high-bit chars unescaped in output", 
+      "short": "8", 
+      "value": null
+    }, 
+    "acls": {
+      "desc": "preserve ACLs (implies -p)", 
+      "short": "A", 
+      "value": null
+    }, 
+    "address": {
+      "desc": "bind to the specified address", 
+      "short": null, 
+      "value": "ADDRESS"
+    }, 
+    "append": {
+      "desc": "append data onto shorter files", 
+      "short": null, 
+      "value": null
+    }, 
+    "append-verify": {
+      "desc": "--append w/old data in file checksum", 
+      "short": null, 
+      "value": null
+    }, 
+    "archive": {
+      "desc": "archive mode; equals -rlptgoD (no -H,-A,-X)", 
+      "short": "a", 
+      "value": null
+    }, 
+    "backup": {
+      "desc": "make backups (see --suffix & --backup-dir)", 
+      "short": "b", 
+      "value": null
+    }, 
+    "backup-dir": {
+      "desc": "make backups into hierarchy based in DIR", 
+      "short": null, 
+      "value": "DIR"
+    }, 
+    "block-size": {
+      "desc": "force a fixed checksum block-size", 
+      "short": "B", 
+      "value": "SIZE"
+    }, 
+    "blocking-io": {
+      "desc": "use blocking I/O for the remote shell", 
+      "short": null, 
+      "value": null
+    }, 
+    "bwlimit": {
+      "desc": "limit socket I/O bandwidth", 
+      "short": null, 
+      "value": "RATE"
+    }, 
+    "checksum": {
+      "desc": "skip based on checksum, not mod-time & size", 
+      "short": "c", 
+      "value": null
+    }, 
+    "checksum-seed": {
+      "desc": "set block/file checksum seed (advanced)", 
+      "short": null, 
+      "value": "NUM"
+    }, 
+    "chmod": {
+      "desc": "affect file and/or directory permissions", 
+      "short": null, 
+      "value": "CHMOD"
+    }, 
+    "chown": {
+      "desc": "simple username/groupname mapping", 
+      "short": null, 
+      "value": "USER:GROUP"
+    }, 
+    "compare-dest": {
+      "desc": "also compare received files relative to DIR", 
+      "short": null, 
+      "value": "DIR"
+    }, 
+    "compress": {
+      "desc": "compress file data during the transfer", 
+      "short": "z", 
+      "value": null
+    }, 
+    "compress-level": {
+      "desc": "explicitly set compression level", 
+      "short": null, 
+      "value": "NUM"
+    }, 
+    "config": {
+      "desc": "specify alternate rsyncd.conf file", 
+      "short": null, 
+      "value": "FILE"
+    }, 
+    "contimeout": {
+      "desc": "set daemon connection timeout in seconds", 
+      "short": null, 
+      "value": "SECONDS"
+    }, 
+    "copy-dest": {
+      "desc": "... and include copies of unchanged files", 
+      "short": null, 
+      "value": "DIR"
+    }, 
+    "copy-dirlinks": {
+      "desc": "transform symlink to dir into referent dir", 
+      "short": "k", 
+      "value": null
+    }, 
+    "copy-links": {
+      "desc": "transform symlink into referent file/dir", 
+      "short": "L", 
+      "value": null
+    }, 
+    "copy-unsafe-links": {
+      "desc": "only \"unsafe\" symlinks are transformed", 
+      "short": null, 
+      "value": null
+    }, 
+    "cvs-exclude": {
+      "desc": "auto-ignore files in the same way CVS does", 
+      "short": "C", 
+      "value": null
+    }, 
+    "daemon": {
+      "desc": "run as an rsync daemon", 
+      "short": null, 
+      "value": null
+    }, 
+    "debug": {
+      "desc": "fine-grained debug verbosity", 
+      "short": null, 
+      "value": "FLAGS"
+    }, 
+    "del": {
+      "desc": "an alias for --delete-during", 
+      "short": null, 
+      "value": null
+    }, 
+    "delay-updates": {
+      "desc": "put all updated files into place at end", 
+      "short": null, 
+      "value": null
+    }, 
+    "delete": {
+      "desc": "delete extraneous files from dest dirs", 
+      "short": null, 
+      "value": null
+    }, 
+    "delete-after": {
+      "desc": "receiver deletes after transfer, not during", 
+      "short": null, 
+      "value": null
+    }, 
+    "delete-before": {
+      "desc": "receiver deletes before xfer, not during", 
+      "short": null, 
+      "value": null
+    }, 
+    "delete-delay": {
+      "desc": "find deletions during, delete after", 
+      "short": null, 
+      "value": null
+    }, 
+    "delete-during": {
+      "desc": "receiver deletes during the transfer", 
+      "short": null, 
+      "value": null
+    }, 
+    "delete-excluded": {
+      "desc": "also delete excluded files from dest dirs", 
+      "short": null, 
+      "value": null
+    }, 
+    "delete-missing-args": {
+      "desc": "delete missing source args from destination", 
+      "short": null, 
+      "value": null
+    }, 
+    "devices": {
+      "desc": "preserve device files (super-user only)", 
+      "short": null, 
+      "value": null
+    }, 
+    "dirs": {
+      "desc": "transfer directories without recursing", 
+      "short": "d", 
+      "value": null
+    }, 
+    "dparam": {
+      "desc": "override global daemon config parameter", 
+      "short": "M", 
+      "value": "OVERRIDE"
+    }, 
+    "dry-run": {
+      "desc": "perform a trial run with no changes made", 
+      "short": "n", 
+      "value": null
+    }, 
+    "exclude": {
+      "desc": "exclude files matching PATTERN", 
+      "short": null, 
+      "value": "PATTERN"
+    }, 
+    "exclude-from": {
+      "desc": "read exclude patterns from FILE", 
+      "short": null, 
+      "value": "FILE"
+    }, 
+    "executability": {
+      "desc": "preserve executability", 
+      "short": "E", 
+      "value": null
+    }, 
+    "existing": {
+      "desc": "skip creating new files on receiver", 
+      "short": null, 
+      "value": null
+    }, 
+    "fake-super": {
+      "desc": "store/recover privileged attrs using xattrs", 
+      "short": null, 
+      "value": null
+    }, 
+    "files-from": {
+      "desc": "read list of source-file names from FILE", 
+      "short": null, 
+      "value": "FILE"
+    }, 
+    "filter": {
+      "desc": "add a file-filtering RULE", 
+      "short": "f", 
+      "value": "RULE"
+    }, 
+    "force": {
+      "desc": "force deletion of dirs even if not empty", 
+      "short": null, 
+      "value": null
+    }, 
+    "from0": {
+      "desc": "all *from/filter files are delimited by 0s", 
+      "short": "0", 
+      "value": null
+    }, 
+    "fuzzy": {
+      "desc": "find similar file for basis if no dest file", 
+      "short": "y", 
+      "value": null
+    }, 
+    "group": {
+      "desc": "preserve group", 
+      "short": "g", 
+      "value": null
+    }, 
+    "groupmap": {
+      "desc": "custom groupname mapping", 
+      "short": null, 
+      "value": "STRING"
+    }, 
+    "hard-links": {
+      "desc": "preserve hard links", 
+      "short": "H", 
+      "value": null
+    }, 
+    "help": {
+      "desc": "show this help (if used after --daemon)", 
+      "short": "h", 
+      "value": null
+    }, 
+    "human-readable": {
+      "desc": "output numbers in a human-readable format", 
+      "short": "h", 
+      "value": null
+    }, 
+    "iconv": {
+      "desc": "request charset conversion of filenames", 
+      "short": null, 
+      "value": "CONVERT_SPEC"
+    }, 
+    "ignore-errors": {
+      "desc": "delete even if there are I/O errors", 
+      "short": null, 
+      "value": null
+    }, 
+    "ignore-existing": {
+      "desc": "skip updating files that exist on receiver", 
+      "short": null, 
+      "value": null
+    }, 
+    "ignore-missing-args": {
+      "desc": "ignore missing source args without error", 
+      "short": null, 
+      "value": null
+    }, 
+    "ignore-times": {
+      "desc": "don't skip files that match size and time", 
+      "short": "I", 
+      "value": null
+    }, 
+    "include": {
+      "desc": "don't exclude files matching PATTERN", 
+      "short": null, 
+      "value": "PATTERN"
+    }, 
+    "include-from": {
+      "desc": "read include patterns from FILE", 
+      "short": null, 
+      "value": "FILE"
+    }, 
+    "info": {
+      "desc": "fine-grained informational verbosity", 
+      "short": null, 
+      "value": "FLAGS"
+    }, 
+    "inplace": {
+      "desc": "update destination files in-place", 
+      "short": null, 
+      "value": null
+    }, 
+    "ipv4": {
+      "desc": "prefer IPv4", 
+      "short": "4", 
+      "value": null
+    }, 
+    "ipv6": {
+      "desc": "prefer IPv6", 
+      "short": "6", 
+      "value": null
+    }, 
+    "itemize-changes": {
+      "desc": "output a change-summary for all updates", 
+      "short": "i", 
+      "value": null
+    }, 
+    "keep-dirlinks": {
+      "desc": "treat symlinked dir on receiver as dir", 
+      "short": "K", 
+      "value": null
+    }, 
+    "link-dest": {
+      "desc": "hardlink to files in DIR when unchanged", 
+      "short": null, 
+      "value": "DIR"
+    }, 
+    "links": {
+      "desc": "copy symlinks as symlinks", 
+      "short": "l", 
+      "value": null
+    }, 
+    "list-only": {
+      "desc": "list the files instead of copying them", 
+      "short": null, 
+      "value": null
+    }, 
+    "log-file": {
+      "desc": "override the \"log file\" setting", 
+      "short": null, 
+      "value": "FILE"
+    }, 
+    "log-file-format": {
+      "desc": "override the \"log format\" setting", 
+      "short": null, 
+      "value": "FMT"
+    }, 
+    "max-delete": {
+      "desc": "don't delete more than NUM files", 
+      "short": null, 
+      "value": "NUM"
+    }, 
+    "max-size": {
+      "desc": "don't transfer any file larger than SIZE", 
+      "short": null, 
+      "value": "SIZE"
+    }, 
+    "min-size": {
+      "desc": "don't transfer any file smaller than SIZE", 
+      "short": null, 
+      "value": "SIZE"
+    }, 
+    "modify-window": {
+      "desc": "compare mod-times with reduced accuracy", 
+      "short": null, 
+      "value": "NUM"
+    }, 
+    "msgs2stderr": {
+      "desc": "special output handling for debugging", 
+      "short": null, 
+      "value": null
+    }, 
+    "munge-links": {
+      "desc": "munge symlinks to make them safer", 
+      "short": null, 
+      "value": null
+    }, 
+    "no-OPTION": {
+      "desc": "turn off an implied OPTION (e.g. --no-D)", 
+      "short": null, 
+      "value": null
+    }, 
+    "no-detach": {
+      "desc": "do not detach from the parent", 
+      "short": null, 
+      "value": null
+    }, 
+    "no-implied-dirs": {
+      "desc": "don't send implied dirs with --relative", 
+      "short": null, 
+      "value": null
+    }, 
+    "no-motd": {
+      "desc": "suppress daemon-mode MOTD (see caveat)", 
+      "short": null, 
+      "value": null
+    }, 
+    "numeric-ids": {
+      "desc": "don't map uid/gid values by user/group name", 
+      "short": null, 
+      "value": null
+    }, 
+    "omit-dir-times": {
+      "desc": "omit directories from --times", 
+      "short": "O", 
+      "value": null
+    }, 
+    "omit-link-times": {
+      "desc": "omit symlinks from --times", 
+      "short": "J", 
+      "value": null
+    }, 
+    "one-file-system": {
+      "desc": "don't cross filesystem boundaries", 
+      "short": "x", 
+      "value": null
+    }, 
+    "only-write-batch": {
+      "desc": "like --write-batch but w/o updating dest", 
+      "short": null, 
+      "value": "FILE"
+    }, 
+    "out-format": {
+      "desc": "output updates using the specified FORMAT", 
+      "short": null, 
+      "value": "FORMAT"
+    }, 
+    "outbuf": {
+      "desc": "set out buffering to None, Line, or Block", 
+      "short": null, 
+      "value": "N|L|B"
+    }, 
+    "owner": {
+      "desc": "preserve owner (super-user only)", 
+      "short": "o", 
+      "value": null
+    }, 
+    "partial": {
+      "desc": "keep partially transferred files", 
+      "short": null, 
+      "value": null
+    }, 
+    "partial-dir": {
+      "desc": "put a partially transferred file into DIR", 
+      "short": null, 
+      "value": "DIR"
+    }, 
+    "password-file": {
+      "desc": "read daemon-access password from FILE", 
+      "short": null, 
+      "value": "FILE"
+    }, 
+    "perms": {
+      "desc": "preserve permissions", 
+      "short": "p", 
+      "value": null
+    }, 
+    "port": {
+      "desc": "listen on alternate port number", 
+      "short": null, 
+      "value": "PORT"
+    }, 
+    "preallocate": {
+      "desc": "allocate dest files before writing", 
+      "short": null, 
+      "value": null
+    }, 
+    "progress": {
+      "desc": "show progress during transfer", 
+      "short": null, 
+      "value": null
+    }, 
+    "protect-args": {
+      "desc": "no space-splitting; wildcard chars only", 
+      "short": "s", 
+      "value": null
+    }, 
+    "protocol": {
+      "desc": "force an older protocol version to be used", 
+      "short": null, 
+      "value": "NUM"
+    }, 
+    "prune-empty-dirs": {
+      "desc": "prune empty directory chains from file-list", 
+      "short": "m", 
+      "value": null
+    }, 
+    "quiet": {
+      "desc": "suppress non-error messages", 
+      "short": "q", 
+      "value": null
+    }, 
+    "read-batch": {
+      "desc": "read a batched update from FILE", 
+      "short": null, 
+      "value": "FILE"
+    }, 
+    "recursive": {
+      "desc": "recurse into directories", 
+      "short": "r", 
+      "value": null
+    }, 
+    "relative": {
+      "desc": "use relative path names", 
+      "short": "R", 
+      "value": null
+    }, 
+    "remote-option": {
+      "desc": "send OPTION to the remote side only", 
+      "short": "M", 
+      "value": "OPTION"
+    }, 
+    "remove-source-files": {
+      "desc": "sender removes synchronized files (non-dir)", 
+      "short": null, 
+      "value": null
+    }, 
+    "rsh": {
+      "desc": "specify the remote shell to use", 
+      "short": "e", 
+      "value": "COMMAND"
+    }, 
+    "rsync-path": {
+      "desc": "specify the rsync to run on remote machine", 
+      "short": null, 
+      "value": "PROGRAM"
+    }, 
+    "safe-links": {
+      "desc": "ignore symlinks that point outside the tree", 
+      "short": null, 
+      "value": null
+    }, 
+    "size-only": {
+      "desc": "skip files that match in size", 
+      "short": null, 
+      "value": null
+    }, 
+    "skip-compress": {
+      "desc": "skip compressing files with suffix in LIST", 
+      "short": null, 
+      "value": "LIST"
+    }, 
+    "sockopts": {
+      "desc": "specify custom TCP options", 
+      "short": null, 
+      "value": "OPTIONS"
+    }, 
+    "sparse": {
+      "desc": "handle sparse files efficiently", 
+      "short": "S", 
+      "value": null
+    }, 
+    "specials": {
+      "desc": "preserve special files", 
+      "short": null, 
+      "value": null
+    }, 
+    "stats": {
+      "desc": "give some file-transfer stats", 
+      "short": null, 
+      "value": null
+    }, 
+    "suffix": {
+      "desc": "backup suffix (default ~ w/o --backup-dir)", 
+      "short": null, 
+      "value": "SUFFIX"
+    }, 
+    "super": {
+      "desc": "receiver attempts super-user activities", 
+      "short": null, 
+      "value": null
+    }, 
+    "temp-dir": {
+      "desc": "create temporary files in directory DIR", 
+      "short": "T", 
+      "value": "DIR"
+    }, 
+    "timeout": {
+      "desc": "set I/O timeout in seconds", 
+      "short": null, 
+      "value": "SECONDS"
+    }, 
+    "times": {
+      "desc": "preserve modification times", 
+      "short": "t", 
+      "value": null
+    }, 
+    "update": {
+      "desc": "skip files that are newer on the receiver", 
+      "short": "u", 
+      "value": null
+    }, 
+    "usermap": {
+      "desc": "custom username mapping", 
+      "short": null, 
+      "value": "STRING"
+    }, 
+    "verbose": {
+      "desc": "increase verbosity", 
+      "short": "v", 
+      "value": null
+    }, 
+    "version": {
+      "desc": "print version number", 
+      "short": null, 
+      "value": null
+    }, 
+    "whole-file": {
+      "desc": "copy files whole (w/o delta-xfer algorithm)", 
+      "short": "W", 
+      "value": null
+    }, 
+    "write-batch": {
+      "desc": "write a batched update to FILE", 
+      "short": null, 
+      "value": "FILE"
+    }, 
+    "xattrs": {
+      "desc": "preserve extended attributes", 
+      "short": "X", 
+      "value": null
+    }
+  }, 
+  "short": {
+    "0": {
+      "desc": "all *from/filter files are delimited by 0s", 
+      "long": "from0", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "4": {
+      "desc": "prefer IPv4", 
+      "long": "ipv4", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "6": {
+      "desc": "prefer IPv6", 
+      "long": "ipv6", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "8": {
+      "desc": "leave high-bit chars unescaped in output", 
+      "long": "8-bit-output", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "A": {
+      "desc": "preserve ACLs (implies -p)", 
+      "long": "acls", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "B": {
+      "desc": "force a fixed checksum block-size", 
+      "long": "block-size", 
+      "same_as": null, 
+      "value": "SIZE"
+    }, 
+    "C": {
+      "desc": "auto-ignore files in the same way CVS does", 
+      "long": "cvs-exclude", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "D": {
+      "desc": null, 
+      "long": null, 
+      "same_as": [
+        "devices", 
+        "specials"
+      ], 
+      "value": null
+    }, 
+    "E": {
+      "desc": "preserve executability", 
+      "long": "executability", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "F": {
+      "desc": null, 
+      "long": null, 
+      "same_as": [
+        "filter='dir-merge /.rsync-filter'"
+      ], 
+      "value": null
+    }, 
+    "H": {
+      "desc": "preserve hard links", 
+      "long": "hard-links", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "I": {
+      "desc": "don't skip files that match size and time", 
+      "long": "ignore-times", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "J": {
+      "desc": "omit symlinks from --times", 
+      "long": "omit-link-times", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "K": {
+      "desc": "treat symlinked dir on receiver as dir", 
+      "long": "keep-dirlinks", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "L": {
+      "desc": "transform symlink into referent file/dir", 
+      "long": "copy-links", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "M": {
+      "desc": "override global daemon config parameter", 
+      "long": "dparam", 
+      "same_as": null, 
+      "value": "OVERRIDE"
+    }, 
+    "O": {
+      "desc": "omit directories from --times", 
+      "long": "omit-dir-times", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "P": {
+      "desc": null, 
+      "long": null, 
+      "same_as": [
+        "partial", 
+        "progress"
+      ], 
+      "value": null
+    }, 
+    "R": {
+      "desc": "use relative path names", 
+      "long": "relative", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "S": {
+      "desc": "handle sparse files efficiently", 
+      "long": "sparse", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "T": {
+      "desc": "create temporary files in directory DIR", 
+      "long": "temp-dir", 
+      "same_as": null, 
+      "value": "DIR"
+    }, 
+    "W": {
+      "desc": "copy files whole (w/o delta-xfer algorithm)", 
+      "long": "whole-file", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "X": {
+      "desc": "preserve extended attributes", 
+      "long": "xattrs", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "a": {
+      "desc": "archive mode; equals -rlptgoD (no -H,-A,-X)", 
+      "long": "archive", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "b": {
+      "desc": "make backups (see --suffix & --backup-dir)", 
+      "long": "backup", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "c": {
+      "desc": "skip based on checksum, not mod-time & size", 
+      "long": "checksum", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "d": {
+      "desc": "transfer directories without recursing", 
+      "long": "dirs", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "e": {
+      "desc": "specify the remote shell to use", 
+      "long": "rsh", 
+      "same_as": null, 
+      "value": "COMMAND"
+    }, 
+    "f": {
+      "desc": "add a file-filtering RULE", 
+      "long": "filter", 
+      "same_as": null, 
+      "value": "RULE"
+    }, 
+    "g": {
+      "desc": "preserve group", 
+      "long": "group", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "h": {
+      "desc": "show this help (if used after --daemon)", 
+      "long": "help", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "i": {
+      "desc": "output a change-summary for all updates", 
+      "long": "itemize-changes", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "k": {
+      "desc": "transform symlink to dir into referent dir", 
+      "long": "copy-dirlinks", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "l": {
+      "desc": "copy symlinks as symlinks", 
+      "long": "links", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "m": {
+      "desc": "prune empty directory chains from file-list", 
+      "long": "prune-empty-dirs", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "n": {
+      "desc": "perform a trial run with no changes made", 
+      "long": "dry-run", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "o": {
+      "desc": "preserve owner (super-user only)", 
+      "long": "owner", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "p": {
+      "desc": "preserve permissions", 
+      "long": "perms", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "q": {
+      "desc": "suppress non-error messages", 
+      "long": "quiet", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "r": {
+      "desc": "recurse into directories", 
+      "long": "recursive", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "s": {
+      "desc": "no space-splitting; wildcard chars only", 
+      "long": "protect-args", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "t": {
+      "desc": "preserve modification times", 
+      "long": "times", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "u": {
+      "desc": "skip files that are newer on the receiver", 
+      "long": "update", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "v": {
+      "desc": "increase verbosity", 
+      "long": "verbose", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "x": {
+      "desc": "don't cross filesystem boundaries", 
+      "long": "one-file-system", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "y": {
+      "desc": "find similar file for basis if no dest file", 
+      "long": "fuzzy", 
+      "same_as": null, 
+      "value": null
+    }, 
+    "z": {
+      "desc": "compress file data during the transfer", 
+      "long": "compress", 
+      "same_as": null, 
+      "value": null
+    }
+  }
+}
