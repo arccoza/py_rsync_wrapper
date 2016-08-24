@@ -133,5 +133,5 @@ if __name__ == '__main__':
   # pprint(str(t))
   a = Options()
   a.grumble = True
-  a.parse(u'rsync -az -a --delete=1 --force vger.rutgers.edu::cvs/ /var/www/cvs/vger/')
+  a.parse(u'rsync -az -D --delete=1 --force vger.rutgers.edu::cvs/ /var/www/cvs/vger/')
   # pprint(a.__dict__)

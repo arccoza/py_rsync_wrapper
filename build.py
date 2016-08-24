@@ -3,7 +3,7 @@ import json
 from pprint import pprint
 
 
-p = re.compile(u'^(?:\s?-(?P<short>.),)?\s*--(?P<long>\w+)=?(?P<value>\w+)?\s+(?P<desc>.*)$', re.MULTILINE)
+p = re.compile(u'(?:(?:^\s-(?P<short>[^-\s,]),?)|(^\s*))(?:(?:\s--(?:(?:(?P<long>[^\s=]+)=?(?P<value>[^-\s]+)?(?:\s*(?P<desc>.*$)))))|(?:\s*same as(?P<same_as>\s--.*$)*))', re.MULTILINE)
 test_str = u" -v, --verbose               increase verbosity\n     --info=FLAGS            fine-grained informational verbosity"
 
 def extract_rsync_options(text):
