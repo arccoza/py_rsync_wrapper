@@ -124,6 +124,10 @@ class Job(object):
   def sync(self):
     pass
 
+class RsyncError(Exception):
+  def __init__(self, message, errors=None):
+    super(RsyncError, self).__init__(message)
+    self.errors = errors
 
 
 if __name__ == '__main__':
