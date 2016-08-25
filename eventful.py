@@ -48,28 +48,28 @@ class Event(set):
 
 class Emitter(object):
 	def __init__(self):
-		self._events = {}
+		self._emitter_events = {}
 
 	def on(self, name, handler):
 		try:
-			self._events[name] += handler
+			self._emitter_events[name] += handler
 		except KeyError:
-			self._events[name] = Event(handler)
+			self._emitter_events[name] = Event(handler)
 
 	def off(self, name=None, handler=None):
 		try:
-			self._events[name] -= handler
+			self._emitter_events[name] -= handler
 		except KeyError as ex:
 			if handler == None and name == None:
-				self._events.clear()
+				self._emitter_events.clear()
 			elif handler == None:
-				self._events[name].clear()
+				self._emitter_events[name].clear()
 			else:
 				raise ex
 
 	def do(self, name, *args, **kargs):
 		try:
-			return self._events[name](*args, **kargs)
+			return self._emitter_events[name](*args, **kargs)
 		except KeyError:
 			return False
 
