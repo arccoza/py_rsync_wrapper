@@ -1,13 +1,21 @@
 from pprint import pprint
 
 
-def handler1(*args, **kwargs):
-	pprint(u'handler1')
-	pprint(args[0])
+# def handler1(*args, **kwargs):
+# 	pprint(u'handler1')
+# 	pprint(args[0])
 
-def handler2(*args, **kwargs):
-	pprint(u'handler2')
-	pprint(args[0])
+# def handler2(*args, **kwargs):
+# 	pprint(u'handler2')
+# 	pprint(args[0])
+
+# def handler3(*args, **kwargs):
+# 	pprint(u'handler3')
+# 	pprint(args[0])
+
+# def handler4(*args, **kwargs):
+# 	pprint(u'handler4')
+# 	pprint(args[0])
 
 
 class Event(set):
@@ -24,25 +32,33 @@ class Event(set):
 			return True
 		return False
 
+	def __iadd__(self, other):
+		try:
+			self.add(other)
+		except TypeError:
+			self.update(other)
+		return self
+
+	def __isub__(self, other):
+		try:
+			self.remove(other)
+		except TypeError:
+			self.difference_update(other)
+		return self
+
 class Emitter(object):
 	def __init__(self):
 		self._events = {}
 
 	def on(self, name, handler):
 		try:
-			self._events[name].add(handler)
-		except TypeError:
-			self._events[name].update(handler)
+			self._events[name] += handler
 		except KeyError:
 			self._events[name] = Event(handler)
 
 	def off(self, name=None, handler=None):
 		try:
-			if name == None or handler == None:
-				raise KeyError('Missing argument.')
-			self._events[name].remove(handler)
-		except TypeError:
-			self._events[name].difference_update(handler)
+			self._events[name] -= handler
 		except KeyError as ex:
 			if handler == None and name == None:
 				self._events.clear()
@@ -60,7 +76,8 @@ class Emitter(object):
 # e = Emitter()
 
 # e.on(u'update', [handler1, handler2])
+# e.on(u'update', [handler3, handler4])
 # e.do(u'update', u'hello')
-# e.off(u'update', handler1)
+# e.off(u'update', [handler1, handler2])
 # pprint(e.do(u'update', u'bye'))
 
