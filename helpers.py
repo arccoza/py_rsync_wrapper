@@ -90,6 +90,7 @@ class Options(object):
   def render(self):
     pass
 
+  # TODO: Add option key handling, with special cases for --info=FLAGS and --debug=FLAGS.
   # def __setattr__(self, key, value):
   #   if key in (u'_short', u'_long'):
   #     self.__dict__[key] = value
@@ -111,6 +112,12 @@ class Job(object):
     self.local = Target()
     self.remote = Target()
     self.options = Options()
+
+  def render(self, local=None, remote=None, options=None):
+    local = self.local or local
+    remote = self.remote or remote
+    options = self.options or options
+    return options.render() + ' ' + local.render() + ' ' + remote.render()
 
   def list(self, target='remote'):
     pass

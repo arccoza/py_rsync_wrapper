@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"Rsync",
+				"RsyncError"
+			],
+			[
+				"handl",
+				"handler1"
+			],
+			[
+				"hand",
+				"handler1"
+			],
+			[
+				"ex",
+				"except"
+			],
+			[
+				"rs",
+				"rsync_version"
+			],
+			[
 				"long",
 				"long_args"
 			]
@@ -15,7 +35,26 @@
 			"file": "build.py",
 			"settings":
 			{
-				"buffer_size": 1220,
+				"buffer_size": 1321,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "extract.py",
+			"settings":
+			{
+				"buffer_size": 1626,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "import re\nimport pexpect\nfrom helpers import RsyncError, Job\nfrom pprint import pprint\n\nspawn = pexpect.spawn\n\nclass Rsync(object):\n  def __init__(self):\n    self._rex = 'rsync'\n    self._ver = None\n    self._all_opts = None\n\n  def set_executable(self, rex):\n    self._rex = rex;\n\n  def get_version(self):\n    \"\"\"Get the rsync version from the rsync command line.\"\"\"\n    rex = self._rex\n    ver = None\n\n    # TODO: Move the pexpect.spawn and exception handling into a mathod, perhaps __call__.\n    try:\n      rsync = pexpect.spawn(rex + u' --version')\n      i = rsync.expect(u'version\\D*([\\d\\.]+)')\n      ver = rsync.match.groups()[0]\n    except (pexpect.EOF, pexpect.TIMEOUT, IndexError) as ex:\n      raise RsyncError(u'version not found')\n    except pexpect.ExceptionPexpect as ex:\n      if u'command was not found or was not executable' in str(ex):\n        raise RsyncError(u'command not found')\n      else:\n        raise RsyncError(u'unknown')\n    self._ver = ver\n    return ver\n\n  def get_options(self):\n    \"\"\"Get rsync docs from the rsync command line.\"\"\"\n    rex = self._rex\n\n    rsync = pexpect.spawn(rex + u' --help')\n    i = rsync.expect(pexpect.EOF)\n    self._all_opts = self._parse_options(rsync.before)\n    return self._all_opts\n\n  def _parse_options(self, text):\n    \"\"\"Extract valid argument options from rsync docs.\"\"\"\n    short = {}\n    long = {}\n    for match in re_doc_opts.finditer(text):\n      g = match.groupdict()\n\n      # Split the same_as into individual long options, if it is found. (Couldn't be done in the regex).\n      g[u'same_as'] = filter(None, g[u'same_as'].split(u' --')) if g[u'same_as'] else None\n\n      if g[u'short']:\n        short[g[u'short']] = {u'long': g[u'long'], u'value': g.get(u'value'), u'same_as':g[u'same_as'], u'desc': g[u'desc']}\n      if g[u'long']:\n        long[g[u'long']] = {u'short': g[u'short'], u'value': g.get(u'value'), u'desc': g[u'desc']}\n\n    return {'short': short, 'long': long}\n\n  def run(self, job):\n    p = pexpect.spawn(command)\n\n  def list(self, job):\n    pass\n\n  def push(self, job):\n    pass\n\n  def pull(self, job):\n    pass\n\n  def sync(self, job):\n    pass\n\nre_doc_opts = re.compile(u'(?:(?:^\\s-(?P<short>[^-\\s,]),?)|(^\\s*))(?:(?:\\s--(?:(?:(?P<long>[^\\s=]+)=?(?P<value>[^-\\s]+)?(?:\\s*(?P<desc>.*$)))))|(?:\\s*same as(?P<same_as>\\s--.*$)*))', re.MULTILINE)\n\n\n\nr = Rsync()\npprint(r.options())",
+			"file": "rsync.py",
+			"file_size": 2279,
+			"file_write_time": 131166457533881306,
+			"settings":
+			{
+				"buffer_size": 2364,
 				"line_ending": "Unix"
 			}
 		},
@@ -23,31 +62,7 @@
 			"file": "helpers.py",
 			"settings":
 			{
-				"buffer_size": 3275,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/adrien/Projects/code/UnrealEngine/Engine/Build/BatchFiles/Linux/Setup.sh",
-			"settings":
-			{
-				"buffer_size": 5547,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/adrien/Projects/code/UnrealEngine/Engine/Build/BatchFiles/Linux/BuildThirdParty.sh",
-			"settings":
-			{
-				"buffer_size": 13133,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "options.py",
-			"settings":
-			{
-				"buffer_size": 3353,
+				"buffer_size": 4157,
 				"line_ending": "Unix"
 			}
 		},
@@ -63,7 +78,7 @@
 			"file": "__init__.py",
 			"settings":
 			{
-				"buffer_size": 236,
+				"buffer_size": 254,
 				"line_ending": "Unix"
 			}
 		}
@@ -121,15 +136,21 @@
 	},
 	"expanded_folders":
 	[
-		"/home/adrien/Projects/code/py_rsync_wrapper"
+		"/home/adrien/Projects/code/py_rsync_wrapper",
+		"/home/adrien/Projects/code/py_rsync_wrapper/src"
 	],
 	"file_history":
 	[
+		"/home/adrien/Projects/code/py_rsync_wrapper/eventful.py",
+		"/home/adrien/Projects/code/py_rsync_wrapper/options.json",
+		"/home/adrien/Projects/code/py_rsync_wrapper/src/rsync_options.txt",
+		"/home/adrien/Projects/code/py_rsync_wrapper/.gitignore",
+		"/home/adrien/Projects/code/py_rsync_wrapper/options.py",
+		"/home/adrien/Projects/code/UnrealEngine/Engine/Build/BatchFiles/Linux/Setup.sh",
+		"/home/adrien/Projects/code/UnrealEngine/Engine/Build/BatchFiles/Linux/BuildThirdParty.sh",
 		"/home/adrien/Projects/code/UnrealEngine/Build/BatchFiles/Linux/BuildThirdParty.sh",
 		"/home/adrien/Projects/code/UnrealEngine/Engine/Build/BatchFiles/Linux/BuildThirdParty.log",
 		"/home/adrien/Projects/code/UnrealEngine/Setup.sh",
-		"/home/adrien/Projects/code/py_rsync_wrapper/options.json",
-		"/home/adrien/Projects/code/py_rsync_wrapper/options.py",
 		"/home/adrien/Projects/code/py_rsync_wrapper/tools.py",
 		"/home/adrien/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
 		"/home/adrien/.config/sublime-text-3/Packages/Default/Preferences.sublime-settings"
@@ -150,6 +171,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"_events",
+			"same_as",
+			"\"k",
+			"k",
 			"BuildHLSLCC",
 			"CLANG_TO_USE",
 			"3.8",
@@ -165,6 +190,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"_emitter_events"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -175,7 +201,7 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -184,15 +210,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1220,
+						"buffer_size": 1321,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								33,
-								33
+								1321,
+								1321
 							]
 						],
 						"settings":
@@ -202,115 +228,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "helpers.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3275,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2261,
-								2261
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1587.0,
+						"translation.y": 69.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "/home/adrien/Projects/code/UnrealEngine/Engine/Build/BatchFiles/Linux/Setup.sh",
+					"buffer": 1,
+					"file": "extract.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5547,
+						"buffer_size": 1626,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5461,
-								5461
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/ShellScript/Shell-Unix-Generic.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 3519.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/home/adrien/Projects/code/UnrealEngine/Engine/Build/BatchFiles/Linux/BuildThirdParty.sh",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 13133,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3927,
-								3927
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/ShellScript/Shell-Unix-Generic.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 3106.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "options.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3353,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3233,
-								3233
+								1626,
+								1626
 							]
 						],
 						"settings":
@@ -320,14 +258,73 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 345.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 2,
+					"file": "rsync.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2364,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								279,
+								279
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "helpers.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4157,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3736,
+								3736
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2415.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
 					"file": "test.py",
 					"semi_transient": false,
 					"settings":
@@ -339,48 +336,49 @@
 						"selection":
 						[
 							[
-								29,
-								29
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "__init__.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 236,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								38,
-								38
+								27,
+								27
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/Python/Python.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "__init__.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 254,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								254,
+								254
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
@@ -425,7 +423,7 @@
 	"project": "rsync_wrapper.sublime-project",
 	"replace":
 	{
-		"height": 58.0
+		"height": 86.0
 	},
 	"save_all_on_build": true,
 	"select_file":

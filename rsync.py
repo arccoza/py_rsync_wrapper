@@ -2,6 +2,8 @@ import re
 import pexpect
 from helpers import RsyncError, Job
 from pprint import pprint
+import sys
+import asyncio
 
 
 class Rsync(object):
@@ -10,14 +12,17 @@ class Rsync(object):
     self._ver = None
     self._all_opts = None
 
-  def version(self):
+  def set_executable(self, rex):
+    self._rex = rex;
+
+  def get_version(self):
     """Get the rsync version from the rsync command line."""
     rex = self._rex
     ver = None
 
     # TODO: Move the pexpect.spawn and exception handling into a mathod, perhaps __call__.
     try:
-      rsync = pexpect.spawn(rex + u' --version')
+      rsync = spawn(rex + u' --version')
       i = rsync.expect(u'version\D*([\d\.]+)')
       ver = rsync.match.groups()[0]
     except (pexpect.EOF, pexpect.TIMEOUT, IndexError) as ex:
@@ -30,13 +35,14 @@ class Rsync(object):
     self._ver = ver
     return ver
 
-  def options(self):
+  # TODO: Add support for --info=FLAGS and --debug=FLAGS.
+  def get_options(self):
     """Get rsync docs from the rsync command line."""
     rex = self._rex
 
-    rsync = pexpect.spawn(rex + u' --help')
+    rsync = spawn(rex + u' --help')
     i = rsync.expect(pexpect.EOF)
-    self._all_opts = self._parse_options(rsync.before)
+    self._all_opts = self._parse_options(rsync.before.decode(sys.stdout.encoding))
     return self._all_opts
 
   def _parse_options(self, text):
@@ -56,8 +62,13 @@ class Rsync(object):
 
     return {'short': short, 'long': long}
 
-  def _exec(self, job):
-    p = pexpect.spawn(command)
+  def __call__(self, *args, **kwargs):
+    rex = self._rex
+    args = list(args)
+    args[0] = rex + ' ' + args[0]
+    r = spawn(*args, **kwargs)
+    r.expect(pexpect.EOF)
+    
 
   def list(self, job):
     pass
@@ -71,9 +82,37 @@ class Rsync(object):
   def sync(self, job):
     pass
 
+spawn = pexpect.spawn
 re_doc_opts = re.compile(u'(?:(?:^\s-(?P<short>[^-\s,]),?)|(^\s*))(?:(?:\s--(?:(?:(?P<long>[^\s=]+)=?(?P<value>[^-\s]+)?(?:\s*(?P<desc>.*$)))))|(?:\s*same as(?P<same_as>\s--.*$)*))', re.MULTILINE)
 
 
+# def cb(*args, **kwargs):
+#   pprint('---cb---')
+#   pprint(args)
+#   pprint(kwargs)
 
-r = Rsync()
-pprint(r.options())
+# r = Rsync()
+# # pprint(r.get_options())
+# fut = r('--help')
+# fut = next(fut)
+# # fut = next(fut)
+# fut.add_done_callback(cb)
+# # pprint(fut)
+
+# async def rex():  
+#   return await fut
+
+# loop = asyncio.get_event_loop()
+# loop.run_until_complete(fut)
+# loop.close()
+# # for i in fut:
+# #   pprint(i)
+
+# # pprint(fut.result())
+
+# # pprint(fut.done())
+
+# # while not fut.done():
+# #   pass
+
+# # pprint(fut.done())
