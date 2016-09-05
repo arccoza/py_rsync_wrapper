@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"re",
+				"render"
+			],
+			[
+				"s",
+				"self"
+			],
+			[
 				"Rsync",
 				"RsyncError"
 			],
@@ -48,13 +56,10 @@
 			}
 		},
 		{
-			"contents": "import re\nimport pexpect\nfrom helpers import RsyncError, Job\nfrom pprint import pprint\n\nspawn = pexpect.spawn\n\nclass Rsync(object):\n  def __init__(self):\n    self._rex = 'rsync'\n    self._ver = None\n    self._all_opts = None\n\n  def set_executable(self, rex):\n    self._rex = rex;\n\n  def get_version(self):\n    \"\"\"Get the rsync version from the rsync command line.\"\"\"\n    rex = self._rex\n    ver = None\n\n    # TODO: Move the pexpect.spawn and exception handling into a mathod, perhaps __call__.\n    try:\n      rsync = pexpect.spawn(rex + u' --version')\n      i = rsync.expect(u'version\\D*([\\d\\.]+)')\n      ver = rsync.match.groups()[0]\n    except (pexpect.EOF, pexpect.TIMEOUT, IndexError) as ex:\n      raise RsyncError(u'version not found')\n    except pexpect.ExceptionPexpect as ex:\n      if u'command was not found or was not executable' in str(ex):\n        raise RsyncError(u'command not found')\n      else:\n        raise RsyncError(u'unknown')\n    self._ver = ver\n    return ver\n\n  def get_options(self):\n    \"\"\"Get rsync docs from the rsync command line.\"\"\"\n    rex = self._rex\n\n    rsync = pexpect.spawn(rex + u' --help')\n    i = rsync.expect(pexpect.EOF)\n    self._all_opts = self._parse_options(rsync.before)\n    return self._all_opts\n\n  def _parse_options(self, text):\n    \"\"\"Extract valid argument options from rsync docs.\"\"\"\n    short = {}\n    long = {}\n    for match in re_doc_opts.finditer(text):\n      g = match.groupdict()\n\n      # Split the same_as into individual long options, if it is found. (Couldn't be done in the regex).\n      g[u'same_as'] = filter(None, g[u'same_as'].split(u' --')) if g[u'same_as'] else None\n\n      if g[u'short']:\n        short[g[u'short']] = {u'long': g[u'long'], u'value': g.get(u'value'), u'same_as':g[u'same_as'], u'desc': g[u'desc']}\n      if g[u'long']:\n        long[g[u'long']] = {u'short': g[u'short'], u'value': g.get(u'value'), u'desc': g[u'desc']}\n\n    return {'short': short, 'long': long}\n\n  def run(self, job):\n    p = pexpect.spawn(command)\n\n  def list(self, job):\n    pass\n\n  def push(self, job):\n    pass\n\n  def pull(self, job):\n    pass\n\n  def sync(self, job):\n    pass\n\nre_doc_opts = re.compile(u'(?:(?:^\\s-(?P<short>[^-\\s,]),?)|(^\\s*))(?:(?:\\s--(?:(?:(?P<long>[^\\s=]+)=?(?P<value>[^-\\s]+)?(?:\\s*(?P<desc>.*$)))))|(?:\\s*same as(?P<same_as>\\s--.*$)*))', re.MULTILINE)\n\n\n\nr = Rsync()\npprint(r.options())",
 			"file": "rsync.py",
-			"file_size": 2279,
-			"file_write_time": 131166457533881306,
 			"settings":
 			{
-				"buffer_size": 2364,
+				"buffer_size": 4016,
 				"line_ending": "Unix"
 			}
 		},
@@ -62,7 +67,7 @@
 			"file": "helpers.py",
 			"settings":
 			{
-				"buffer_size": 4157,
+				"buffer_size": 4487,
 				"line_ending": "Unix"
 			}
 		},
@@ -171,6 +176,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"pexpect.spawn",
 			"_events",
 			"same_as",
 			"\"k",
@@ -190,6 +196,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"spawn",
 			"_emitter_events"
 		],
 		"reverse": false,
@@ -270,15 +277,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2364,
+						"buffer_size": 4016,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								279,
-								279
+								2562,
+								2438
 							]
 						],
 						"settings":
@@ -287,7 +294,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1380.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -299,15 +306,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4157,
+						"buffer_size": 4487,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3736,
-								3736
+								3182,
+								3182
 							]
 						],
 						"settings":
@@ -317,7 +324,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2415.0,
+						"translation.y": 1704.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
