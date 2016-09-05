@@ -4,6 +4,7 @@ from helpers import RsyncError, Job
 from pprint import pprint
 import sys
 import asyncio
+from collections import OrderedDict
 
 
 class Rsync(object):
@@ -62,12 +63,92 @@ class Rsync(object):
 
     return {'short': short, 'long': long}
 
-  def __call__(self, *args, **kwargs):
+  def __call__(self, job):
     rex = self._rex
-    args = list(args)
-    args[0] = rex + ' ' + args[0]
-    r = spawn(*args, **kwargs)
-    r.expect(pexpect.EOF)
+    cmd = None
+
+    # try:
+    #   cmd = job.render()
+    # except AttributeError:
+    #   if job is string_types:
+    #     cmd = job
+    #   else:
+    #     for j in job:
+    #       try:
+    #         cmd = j.render()
+    #       except AttributeError:
+    #         cmd = j
+    #       r = spawn(cmd)
+    #     cmd = None
+    # if cmd:
+    #   r = spawn(cmd)
+
+    try:
+      for j in job:
+        try:
+          cmd = j.render()
+        except AttributeError:
+          if len(j) > 1:
+            cmd = j
+          else:
+            raise TypeError()
+        # r = spawn(cmd)
+        pprint('---loop---')
+        pprint(cmd)
+    except TypeError:
+      try:
+        cmd = job.render()
+      except AttributeError:
+        cmd = job
+      pprint('---single---')
+      pprint(cmd)
+      r = spawn(rex + ' ' + cmd)
+      expected = Expected()
+      try:
+        for exp in expected(r):
+          pprint(exp)
+          if exp == 'password':
+            r.sendline('carbonscape')
+          elif exp == 'file':
+            pprint(r.match.groups())
+      except pexpect.EOF:
+        pprint('---EOF---')
+      # i = r.expect(['Password:', 'sending incremental file list', pexpect.EOF])
+      # pprint(i)
+      # if i == 0:
+      #   pprint('---0')
+      #   r.sendline('carbonscape')
+      #   i = r.expect(['Password:', 'sending incremental file list', pexpect.EOF])
+      # if i == 1:
+      #   pprint('---1')
+      #   # i = r.expect(['.*\r\n'])
+      #   # pprint(r.match)
+      #   # i = r.expect(['.*\r\n'])
+      #   # pprint(r.match)
+      #   # i = r.expect(['.*\r\n'])
+      #   # pprint(r.match)
+      #   while not r.eof():
+      #     line = r.readline()
+      #     pprint(line)
+      # if i == 2:
+      #   pprint('---2')
+      #   pprint(r.before.decode(sys.stdout.encoding))
+
+    
+    # args = list(args)
+    # args[0] = rex + ' ' + args[0]
+    # pprint(args[0])
+    # r = spawn(*args, **kwargs)
+    # i = r.expect(['Password:', pexpect.EOF])
+    # pprint(i)
+    # pprint(r.match)
+    # if(i == 0):
+    #   b = r.sendline('carbonscape')
+    #   pprint(b)
+    #   i = r.expect(pexpect.EOF)
+    #   pprint(r.before.decode(sys.stdout.encoding))
+    # else:
+    #   pprint(r.before.decode(sys.stdout.encoding))
     
 
   def list(self, job):
@@ -82,16 +163,41 @@ class Rsync(object):
   def sync(self, job):
     pass
 
-spawn = pexpect.spawn
 re_doc_opts = re.compile(u'(?:(?:^\s-(?P<short>[^-\s,]),?)|(^\s*))(?:(?:\s--(?:(?:(?P<long>[^\s=]+)=?(?P<value>[^-\s]+)?(?:\s*(?P<desc>.*$)))))|(?:\s*same as(?P<same_as>\s--.*$)*))', re.MULTILINE)
+spawn = pexpect.spawn
+class Expected(OrderedDict):
+  def __init__(self):
+    super(Expected, self).__init__([
+      ('[Pp]assword:?', 'password'),
+      ('\s*\r\n', 'blank_line'),
+      ('sending incremental file list.*\r\n', 'transfering'),
+      ('sent\s*(?P<sent>[\d\.]+)\s*(?P<sent_units>\w*)\s*received\s*(?P<received>[\d\.]+)\s*(?P<received_units>\w*)\s*(?P<rate>[\d\.]+)\s*(?P<rate_units>[\w/]+)', 'transfered'),
+      ('total\s*size\s*is\s*(?P<total_size>[\d\.,]+)\s*speedup\s*is\s*(?P<speedup>[\d\.,]+)\s*(?P<dry_run>.*DRY\s*RUN.*)?', 'summary'),
+      ('/?(?P<file>[^/\0]+/?)\r\n', 'file'),
+    ])
 
+  def __call__(self, child):
+    while not child.eof():
+      index = child.expect(list(self.keys()))
+      pprint('-----------------')
+      # pprint(child.match.re.pattern.decode(sys.stdout.encoding))
+      yield self[child.match.re.pattern.decode(sys.stdout.encoding)]
+
+
+
+try:
+  string_types = basestring
+except NameError: 
+  string_types = str
 
 # def cb(*args, **kwargs):
 #   pprint('---cb---')
 #   pprint(args)
 #   pprint(kwargs)
 
-# r = Rsync()
+r = Rsync()
+r('-avn --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/')
+
 # # pprint(r.get_options())
 # fut = r('--help')
 # fut = next(fut)
