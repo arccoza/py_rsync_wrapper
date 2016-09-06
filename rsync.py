@@ -109,10 +109,11 @@ class Rsync(object):
           pprint(exp)
           if exp == 'password':
             r.sendline('carbonscape')
-          elif exp == 'file':
+          else:
             pprint(r.match.groups())
       except pexpect.EOF:
         pprint('---EOF---')
+      
       # i = r.expect(['Password:', 'sending incremental file list', pexpect.EOF])
       # pprint(i)
       # if i == 0:
@@ -169,11 +170,11 @@ class Expected(OrderedDict):
   def __init__(self):
     super(Expected, self).__init__([
       ('[Pp]assword:?', 'password'),
-      ('\s*\r\n', 'blank_line'),
-      ('sending incremental file list.*\r\n', 'transfering'),
-      ('sent\s*(?P<sent>[\d\.]+)\s*(?P<sent_units>\w*)\s*received\s*(?P<received>[\d\.]+)\s*(?P<received_units>\w*)\s*(?P<rate>[\d\.]+)\s*(?P<rate_units>[\w/]+)', 'transfered'),
-      ('total\s*size\s*is\s*(?P<total_size>[\d\.,]+)\s*speedup\s*is\s*(?P<speedup>[\d\.,]+)\s*(?P<dry_run>.*DRY\s*RUN.*)?', 'summary'),
-      ('/?(?P<file>[^/\0]+/?)\r\n', 'file'),
+      ('\s*?\r\n', 'blank_line'),
+      ('sending incremental file list.*?\r\n', 'transfering'),
+      ('sent\s*(?P<sent>[\d\.]+)\s*(?P<sent_units>\w*)\s*received\s*(?P<received>[\d\.]+)\s*(?P<received_units>\w*)\s*(?P<rate>[\d\.]+)\s*(?P<rate_units>[\w/]+)\r\n', 'transfered'),
+      ('total\s*size\s*is\s*(?P<total_size>[\d\.,]+)\s*speedup\s*is\s*(?P<speedup>[\d\.,]+)\s*(?P<dry_run>.*?DRY\s*RUN.*?)?\r\n', 'summary'),
+      ('(?P<update_type>[<>ch\.\*])(?P<file_type>[fdLDS])(?P<attrs>[cstpoguax\.\+\s\?]{9})\s*((?:[^\0]|/)+?)\r\n', 'transfer'),
     ])
 
   def __call__(self, child):
@@ -196,7 +197,8 @@ except NameError:
 #   pprint(kwargs)
 
 r = Rsync()
-r('-avn --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/')
+r('-avin --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/')
+# r('-avin --progress --filter="- */" ~/Videos/ root@al-mnemosyne.local::test/')
 
 # # pprint(r.get_options())
 # fut = r('--help')
