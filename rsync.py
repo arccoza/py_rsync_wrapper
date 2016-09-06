@@ -110,7 +110,7 @@ class Rsync(object):
           if exp == 'password':
             r.sendline('carbonscape')
           else:
-            pprint(r.match.groups())
+            pprint(r.match.groupdict())
       except pexpect.EOF:
         pprint('---EOF---')
       
@@ -175,11 +175,13 @@ class Expected(OrderedDict):
       ('sent\s*(?P<sent>[\d\.]+)\s*(?P<sent_units>\w*)\s*received\s*(?P<received>[\d\.]+)\s*(?P<received_units>\w*)\s*(?P<rate>[\d\.]+)\s*(?P<rate_units>[\w/]+)\r\n', 'transfered'),
       ('total\s*size\s*is\s*(?P<total_size>[\d\.,]+)\s*speedup\s*is\s*(?P<speedup>[\d\.,]+)\s*(?P<dry_run>.*?DRY\s*RUN.*?)?\r\n', 'summary'),
       ('(?P<update_type>[<>ch\.\*])(?P<file_type>[fdLDS])(?P<attrs>[cstpoguax\.\+\s\?]{9})\s*((?:[^\0]|/)+?)\r\n', 'transfer'),
+      ('(?P<error_label>(?:rsync)|(?:rsync\s+?error)|(?:@ERROR)):\s+?(?P<error_message>.*?)\r\n', 'error')
     ])
 
   def __call__(self, child):
+    re_list = list(self.keys())
     while not child.eof():
-      index = child.expect(list(self.keys()))
+      index = child.expect(re_list)
       pprint('-----------------')
       # pprint(child.match.re.pattern.decode(sys.stdout.encoding))
       yield self[child.match.re.pattern.decode(sys.stdout.encoding)]
