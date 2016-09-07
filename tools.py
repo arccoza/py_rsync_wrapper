@@ -32,3 +32,7 @@ class PartialFormatter(string.Formatter):
 # print(fmt.format('{n}, {k:.2f}, {p[a]:.2f}, {p[b]}', **data))
 # # 3, ~~, !!, ~~
 
+try:
+  string_types = basestring
+except NameError: 
+  string_types = str
