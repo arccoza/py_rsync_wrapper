@@ -109,8 +109,8 @@ class Options(object):
 
 class Job(object):
   def __init__(self, *args):
-    self.local = Target()
-    self.remote = Target()
+    self.src = Target()
+    self.dest = Target()
     self.options = Options()
 
   def parse(self, cmd):
@@ -118,9 +118,9 @@ class Job(object):
     mat = re.match(pat, cmd)
     pprint(mat.groupdict())
 
-  def render(self, local=None, remote=None, options=None):
-    local = self.local or local
-    remote = self.remote or remote
+  def render(self, src=None, dest=None, options=None):
+    src = self.src or src
+    dest = self.dest or dest
     options = self.options or options
     return options.render() + ' ' + local.render() + ' ' + remote.render()
 
