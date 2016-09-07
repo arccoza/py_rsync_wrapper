@@ -113,23 +113,17 @@ class Job(object):
     self.remote = Target()
     self.options = Options()
 
+  def parse(self, cmd):
+    pat = '''(?P<opts>\s*(?:-{1,2}[^\s\-"']+(?:["'].+?["'])?\s+)*)(?:(?P<src>[^\s"']+|(?:["'].+["']))\s*(?P<dest>[^\s"']+|(?:["'].+["'])))'''
+    mat = re.match(pat, cmd)
+    pprint(mat.groupdict())
+
   def render(self, local=None, remote=None, options=None):
     local = self.local or local
     remote = self.remote or remote
     options = self.options or options
     return options.render() + ' ' + local.render() + ' ' + remote.render()
 
-  def list(self, target='remote'):
-    pass
-
-  def push(self):
-    pass
-
-  def pull(self):
-    pass
-
-  def sync(self):
-    pass
 
 class RsyncError(Exception):
   def __init__(self, message, errors=None):
@@ -142,7 +136,9 @@ if __name__ == '__main__':
   # t.method = u':'
   # pprint(t.__dict__)
   # pprint(str(t))
-  a = Options()
-  a.grumble = True
-  a.parse(u'rsync -az -D --delete=1 --force vger.rutgers.edu::cvs/ /var/www/cvs/vger/')
+  # a = Options()
+  # a.grumble = True
+  # a.parse(u'rsync -az -D --delete=1 --force vger.rutgers.edu::cvs/ /var/www/cvs/vger/')
   # pprint(a.__dict__)
+  j = Job()
+  j.parse('--progress -avi --filter="- */" --exclude=bob.avi --progress "/ho me/adrien/Videos/" root@al-mnemosyne.local::test/')
