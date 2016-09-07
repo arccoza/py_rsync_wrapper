@@ -154,7 +154,7 @@ class Rsync(object):
     #   pprint(r.before.decode(sys.stdout.encoding))
     
 
-  def list(self, job):
+  def list(self, job, target='both'): #can be both|src|dest.
     pass
 
   def push(self, job):
