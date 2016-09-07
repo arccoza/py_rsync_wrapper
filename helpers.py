@@ -115,8 +115,9 @@ class Job(object):
 
   def parse(self, cmd):
     pat = '''(?P<opts>\s*(?:-{1,2}[^\s\-"']+(?:["'].+?["'])?\s+)*)(?:(?P<src>[^\s"']+|(?:["'].+["']))\s*(?P<dest>[^\s"']+|(?:["'].+["'])))'''
-    mat = re.match(pat, cmd)
-    pprint(mat.groupdict())
+    mat = re.match(pat, cmd).groupdict()
+    self.src.parse(mat['src'])
+    pprint(self.src.render())
 
   def render(self, src=None, dest=None, options=None):
     src = self.src or src
