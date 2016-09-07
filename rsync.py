@@ -1,5 +1,6 @@
 import re
 import pexpect
+from tools import string_types
 from helpers import RsyncError, Job
 from pprint import pprint
 import sys
@@ -8,6 +9,7 @@ from collections import OrderedDict
 
 
 class Rsync(object):
+  """Rsync command-line wrapper for easy programmatic use."""
   def __init__(self):
     self._rex = 'rsync'
     self._ver = None
@@ -167,31 +169,32 @@ class Rsync(object):
 re_doc_opts = re.compile(u'(?:(?:^\s-(?P<short>[^-\s,]),?)|(^\s*))(?:(?:\s--(?:(?:(?P<long>[^\s=]+)=?(?P<value>[^-\s]+)?(?:\s*(?P<desc>.*$)))))|(?:\s*same as(?P<same_as>\s--.*$)*))', re.MULTILINE)
 spawn = pexpect.spawn
 class Expected(OrderedDict):
-  def __init__(self):
-    super(Expected, self).__init__([
+  def __init__(self, regexs=None):
+    self.filters = {}
+    defaults = [
       ('[Pp]assword:?', 'password'),
       ('\s*?\r\n', 'blank_line'),
       ('sending incremental file list.*?\r\n', 'transfering'),
-      ('sent\s*(?P<sent>[\d\.]+)\s*(?P<sent_units>\w*)\s*received\s*(?P<received>[\d\.]+)\s*(?P<received_units>\w*)\s*(?P<rate>[\d\.]+)\s*(?P<rate_units>[\w/]+)\r\n', 'transfered'),
+      ('sent\s*(?P<sent>[\d\.,]+)\s*(?P<sent_units>\w*)\s*received\s*(?P<received>[\d\.,]+)\s*(?P<received_units>\w*)\s*(?P<rate>[\d\.,]+)\s*(?P<rate_units>[\w/]+)\r\n', 'transfered'),
       ('total\s*size\s*is\s*(?P<total_size>[\d\.,]+)\s*speedup\s*is\s*(?P<speedup>[\d\.,]+)\s*(?P<dry_run>.*?DRY\s*RUN.*?)?\r\n', 'summary'),
-      ('(?P<update_type>[<>ch\.\*])(?P<file_type>[fdLDS])(?P<attrs>[cstpoguax\.\+\s\?]{9})\s*((?:[^\0]|/)+?)\r\n', 'transfer'),
+      ('\\r\s*(?P<bytes>[\d,]+)\s*(?P<percent>\d+)(?P<percent_unit>%)\s*(?P<rate>[\d\.]+)(?P<rate_unit>[tTgGmMkKbB/s]+)\s*(?P<time>[\d:]+)\s*(?:\(xfr#(?P<transfer_number>\d+),\s*to-chk=(?P<to_check>[\d/]+)\)(?:\r\n))?', 'progress'),
+      ('(?P<update_type>[<>ch\.\*])(?P<file_type>[fdLDS])(?P<attrs>[cstpoguax\.\+\s\?]{9})\s*(?P<file>(?:[^\0]|/)+?)\r\n', 'transfer'),
       ('(?P<error_label>(?:rsync)|(?:rsync\s+?error)|(?:@ERROR)):\s+?(?P<error_message>.*?)\r\n', 'error')
-    ])
+    ]
+    regexs = regexs or defaults
+    super(Expected, self).__init__(regexs)
 
   def __call__(self, child):
     re_list = list(self.keys())
     while not child.eof():
       index = child.expect(re_list)
-      pprint('-----------------')
+      # pprint('-----------------')
       # pprint(child.match.re.pattern.decode(sys.stdout.encoding))
       yield self[child.match.re.pattern.decode(sys.stdout.encoding)]
 
 
 
-try:
-  string_types = basestring
-except NameError: 
-  string_types = str
+
 
 # def cb(*args, **kwargs):
 #   pprint('---cb---')
