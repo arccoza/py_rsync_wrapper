@@ -177,7 +177,7 @@ class Expected(OrderedDict):
       ('sending incremental file list.*?\r\n', 'transfering'),
       ('sent\s*(?P<sent>[\d\.,]+)\s*(?P<sent_units>\w*)\s*received\s*(?P<received>[\d\.,]+)\s*(?P<received_units>\w*)\s*(?P<rate>[\d\.,]+)\s*(?P<rate_units>[\w/]+)\r\n', 'transfered'),
       ('total\s*size\s*is\s*(?P<total_size>[\d\.,]+)\s*speedup\s*is\s*(?P<speedup>[\d\.,]+)\s*(?P<dry_run>.*?DRY\s*RUN.*?)?\r\n', 'summary'),
-      ('\\r\s*(?P<bytes>[\d,]+)\s*(?P<percent>\d+)(?P<percent_unit>%)\s*(?P<rate>[\d\.]+)(?P<rate_unit>[tTgGmMkKbB/s]+)\s*(?P<time>[\d:]+)\s*(?:\(xfr#(?P<transfer_number>\d+),\s*to-chk=(?P<to_check>[\d/]+)\)(?:\r\n))?', 'progress'),
+      ('\\r\s*(?P<bytes>[\d,]+)\s*(?P<percent>\d+)(?P<percent_unit>%)\s*(?P<rate>[\d\.]+)(?P<rate_unit>[tTgGmMkKbB/s]+)\s*(?P<time>[\d:]+)\s*(?:\(xfr#(?P<transfer_number>\d+),\s*to-chk=(?P<to_check>[\d/]+)\)(?:\r\n)?)?', 'progress'),
       ('(?P<update_type>[<>ch\.\*])(?P<file_type>[fdLDS])(?P<attrs>[cstpoguax\.\+\s\?]{9})\s*(?P<file>(?:[^\0]|/)+?)\r\n', 'transfer'),
       ('(?P<error_label>(?:rsync)|(?:rsync\s+?error)|(?:@ERROR)):\s+?(?P<error_message>.*?)\r\n', 'error')
     ]
@@ -202,7 +202,7 @@ class Expected(OrderedDict):
 #   pprint(kwargs)
 
 r = Rsync()
-r('-avin --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/')
+r('-avi --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/')
 # r('-avin --progress --filter="- */" ~/Videos/ root@al-mnemosyne.local::test/')
 
 # # pprint(r.get_options())
