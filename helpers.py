@@ -10,7 +10,6 @@ class Target(dict):
     self._parts = ('user', 'server', 'method', 'module', 'path')
     self._methods = ('::', ':', '')
     self._method_types = ('rsync', 'rsh', 'local')
-    self._fmtr = PartialFormatter('', '')
 
     if map_it_url:
       try:
@@ -24,8 +23,7 @@ class Target(dict):
     self['user'] = self.get('user') # Force the 'at' key to update.
 
   def render(self):
-    fmtr = self._fmtr
-    return fmtr.format('{user}{at}{server}{method}{module}{path}', **self)
+    return format('{user}{at}{server}{method}{module}{path}', **self)
 
   def update(self, *args, **kwargs):
     raise AttributeError("'" + self.__class__.__name__ +"' object has no attribute 'update'")
@@ -179,6 +177,7 @@ class RsyncError(Exception):
     self.errors = errors
 
 fmtr = PartialFormatter('', '')
+format = fmtr.format
 
 
 if __name__ == '__main__':
