@@ -7,7 +7,7 @@ from options import short_options, long_options
 class Target(dict):
   def __init__(self, map_it_url=None):
     self.re_url = re.compile(u'(?:(?:(?P<user>\S+)@)?(?P<server>[\w\-\.]+)(?P<method>:{1,2}))?(?P<module>[^:\\/\]]+)?(?P<path>/[^\0\r\n]*)')
-    self._parts = ('user', 'server', 'method', 'module', 'path') #user, server, method, module, path
+    self._parts = ('user', 'server', 'method', 'module', 'path')
     self._methods = ('::', ':', '')
     self._method_types = ('rsync', 'rsh', 'local')
     self._fmtr = PartialFormatter('', '')
@@ -36,6 +36,12 @@ class Target(dict):
     super(Target, self).__setitem__(key, value)
     if key == 'user':
       super(Target, self).__setitem__('at', '@' if value else None)
+
+  def __missing__(self, key):
+    if key in self._parts:
+      return None
+    else:
+      raise KeyError(key)
 
   def __str__(self):
     return self.render()
@@ -182,4 +188,5 @@ if __name__ == '__main__':
   j.parse('--progress -avi --filter="- */" --exclude=bob.avi --progress "/ho me/adrien/Videos/" root@al-mnemosyne.local::test/')
   # t = Target('al-mnemosyne.local::test/')
   # t['bob'] = 'sam'
+  # t['user']
   # pprint(t)
