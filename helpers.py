@@ -6,7 +6,7 @@ from options import short_options, long_options
 
 class Target(object):
   def __init__(self, url=None):
-    self.re_url = re.compile(u'(?:(?P<user>\w+)@)?(?P<server>[a-zA-Z0-9\-\.]+)?(?P<method>::|:)?(?P<module>[a-zA-Z0-9\-\.]+)?(?P<path>/{1}[a-zA-Z0-9\-\./]+)')
+    self.re_url = re.compile(u'(?:(?:(?P<user>\S+)@)?(?P<server>[\w\-\.]+)(?P<method>:{1,2}))?(?P<module>[^:\\/\]]+)?(?P<path>/[^\0\r\n]*)')
     self.parts = {} #user, server, method, module, path
     self._methods = ('::', ':', '')
     self._method_types = ('rsync', 'rsh', 'local')
