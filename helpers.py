@@ -4,7 +4,7 @@ from tools import PartialFormatter
 from options import short_options, long_options
 
 
-class NewTarget(dict):
+class Target(dict):
   def __init__(self, map_it_url=None):
     self.re_url = re.compile(u'(?:(?:(?P<user>\S+)@)?(?P<server>[\w\-\.]+)(?P<method>:{1,2}))?(?P<module>[^:\\/\]]+)?(?P<path>/[^\0\r\n]*)')
     self._parts = ('user', 'server', 'method', 'module', 'path') #user, server, method, module, path
@@ -14,12 +14,12 @@ class NewTarget(dict):
 
     if map_it_url:
       try:
-        super(NewTarget, self).__init__(map_it_url)
+        super(Target, self).__init__(map_it_url)
       except ValueError:
         self.parse(map_it_url)
 
   def parse(self, url):
-    super(NewTarget, self).update(re.search(self.re_url, url).groupdict())
+    super(Target, self).update(re.search(self.re_url, url).groupdict())
     self['user'] = self.get('user') # Force the 'at' key to update.
 
   def render(self):
@@ -32,15 +32,15 @@ class NewTarget(dict):
   def __setitem__(self, key, value):
     if key not in self._parts:
       raise KeyError("The key '" + key + "' is not allowed.")
-    super(NewTarget, self).__setitem__(key, value)
+    super(Target, self).__setitem__(key, value)
     if key == 'user':
-      super(NewTarget, self).__setitem__('at', '@' if value else None)
+      super(Target, self).__setitem__('at', '@' if value else None)
 
   def __str__(self):
     return self.render()
 
 
-class Target(object):
+class OldTarget(object):
   def __init__(self, url=None):
     self.re_url = re.compile(u'(?:(?:(?P<user>\S+)@)?(?P<server>[\w\-\.]+)(?P<method>:{1,2}))?(?P<module>[^:\\/\]]+)?(?P<path>/[^\0\r\n]*)')
     self.parts = {} #user, server, method, module, path
@@ -177,8 +177,8 @@ if __name__ == '__main__':
   # a.grumble = True
   # a.parse(u'rsync -az -D --delete=1 --force vger.rutgers.edu::cvs/ /var/www/cvs/vger/')
   # pprint(a.__dict__)
-  # j = Job()
-  # j.parse('--progress -avi --filter="- */" --exclude=bob.avi --progress "/ho me/adrien/Videos/" root@al-mnemosyne.local::test/')
-  t = NewTarget('al-mnemosyne.local::test/')
+  j = Job()
+  j.parse('--progress -avi --filter="- */" --exclude=bob.avi --progress "/ho me/adrien/Videos/" root@al-mnemosyne.local::test/')
+  # t = Target('al-mnemosyne.local::test/')
   # t['bob'] = 'sam'
-  pprint(t)
+  # pprint(t)
