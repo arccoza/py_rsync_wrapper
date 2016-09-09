@@ -131,7 +131,7 @@ class Options(object):
     # pprint(opts)
 
   def render(self):
-    pass
+    return ''
 
   # TODO: Add option key handling, with special cases for --info=FLAGS and --debug=FLAGS.
   # def __setattr__(self, key, value):
@@ -157,22 +157,28 @@ class Job(object):
     self.options = Options()
 
   def parse(self, cmd):
-    pat = '''(?P<opts>\s*(?:-{1,2}[^\s\-"']+(?:["'].+?["'])?\s+)*)(?:(?P<src>[^\s"']+|(?:["'].+["']))\s*(?P<dest>[^\s"']+|(?:["'].+["'])))'''
+    pat = '''(?P<options>\s*(?:-{1,2}[^\s\-"']+(?:["'].+?["'])?\s+)*)(?:(?P<src>[^\s"']+|(?:["'].+["']))\s*(?P<dest>[^\s"']+|(?:["'].+["'])))'''
     mat = re.match(pat, cmd).groupdict()
     self.src.parse(mat['src'])
-    pprint(self.src.render())
+    self.dest.parse(mat['dest'])
+    self.options.parse(mat['options'])
+    # pprint(self.options)
 
   def render(self, src=None, dest=None, options=None):
     src = self.src or src
     dest = self.dest or dest
     options = self.options or options
-    return options.render() + ' ' + local.render() + ' ' + remote.render()
+    pprint(self.__dict__)
+    return options.render() + ' ' + src.render() + ' ' + dest.render()
+    # return fmtr.format('{options} {src} {dest}', self.__dict__)
 
 
 class RsyncError(Exception):
   def __init__(self, message, errors=None):
     super(RsyncError, self).__init__(message)
     self.errors = errors
+
+fmtr = PartialFormatter('', '')
 
 
 if __name__ == '__main__':
@@ -186,6 +192,7 @@ if __name__ == '__main__':
   # pprint(a.__dict__)
   j = Job()
   j.parse('--progress -avi --filter="- */" --exclude=bob.avi --progress "/ho me/adrien/Videos/" root@al-mnemosyne.local::test/')
+  pprint(j.render())
   # t = Target('al-mnemosyne.local::test/')
   # t['bob'] = 'sam'
   # t['user']
