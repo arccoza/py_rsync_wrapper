@@ -19,6 +19,7 @@ class Target(dict):
         self.parse(map_it_url)
 
   def parse(self, url):
+    url = url[1:-1] if url[0] in '\'"' and url[-1] in '\'"' else url # Strip enclosing quotes if they exist.
     super(Target, self).update(re.search(self.re_url, url).groupdict())
     self['user'] = self.get('user') # Force the 'at' key to update.
 
