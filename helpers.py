@@ -104,6 +104,47 @@ class OldTarget(object):
   def __str__(self):
     return self.render()
 
+class NewOptions(dict):
+  def __init__(self, map_it_opts=None):
+    self.re_opts = re.compile('''(?:(?:^|\s)-(?P<sopt>[^-\s]+))|(?:(?:^|\s)--(?P<lopt>(?P<k>[^\-\s=]+)=?(?P<v>[^\-\s"']+|(?:["'].+?["']))?))''')
+
+    if map_it_opts:
+      try:
+        super(NewOptions, self).__init__(map_it_opts)
+      except ValueError:
+        self.parse(map_it_opts)
+
+  def parse(self, opts_str):
+    mats = self.re_opts.finditer(opts_str)
+    for m in mats:
+      m = m.groupdict()
+      if m['k']:
+        self[m['k']] = m['v']
+      else:
+        for o in m['sopt']:
+          self[o] = None
+
+  def render(self):
+    opts = (format('--{opt}{eq}{val}', opt=k, val=v, eq='=' if v else None) for k, v in self.items())
+    return ' '.join(opts)
+
+  def update(self, *args, **kwargs):
+    raise AttributeError("'" + self.__class__.__name__ +"' object has no attribute 'update'")
+
+  def __setitem__(self, key, value):
+    try:
+      long = long_options[key]
+      super(NewOptions, self).__setitem__(key, value)
+    except KeyError:
+      try:
+        short = short_options[key]
+        super(NewOptions, self).__setitem__(short['long'], short['value'])
+      except KeyError:
+        raise KeyError("The key '" + key + "' is not a valid option.")
+
+  def __str__(self):
+    return self.render()
+
 
 class Options(object):
   def __init__(self, *args):
@@ -189,9 +230,12 @@ if __name__ == '__main__':
   # a.grumble = True
   # a.parse(u'rsync -az -D --delete=1 --force vger.rutgers.edu::cvs/ /var/www/cvs/vger/')
   # pprint(a.__dict__)
-  j = Job()
-  j.parse('--progress -avi --filter="- */" --exclude=bob.avi --progress "/ho me/adrien/Videos/" root@al-mnemosyne.local::test/')
-  pprint(j.render())
+  # j = Job()
+  # j.parse('--progress -avi --filter="- */" --exclude=bob.avi --progress "/ho me/adrien/Videos/" root@al-mnemosyne.local::test/')
+  # pprint(j.render())
+  op = NewOptions()
+  op.parse('--progress -avi --filter="- */" --exclude=bob.avi --progress')
+  pprint(op.render())
   # t = Target('al-mnemosyne.local::test/')
   # t['bob'] = 'sam'
   # t['user']
