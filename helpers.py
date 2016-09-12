@@ -104,13 +104,13 @@ class OldTarget(object):
   def __str__(self):
     return self.render()
 
-class NewOptions(dict):
+class Options(dict):
   def __init__(self, map_it_opts=None):
     self.re_opts = re.compile('''(?:(?:^|\s)-(?P<sopt>[^-\s]+))|(?:(?:^|\s)--(?P<lopt>(?P<k>[^\-\s=]+)=?(?P<v>[^\-\s"']+|(?:["'].+?["']))?))''')
 
     if map_it_opts:
       try:
-        super(NewOptions, self).__init__(map_it_opts)
+        super(Options, self).__init__(map_it_opts)
       except ValueError:
         self.parse(map_it_opts)
 
@@ -134,11 +134,11 @@ class NewOptions(dict):
   def __setitem__(self, key, value):
     try:
       long = long_options[key]
-      super(NewOptions, self).__setitem__(key, value)
+      super(Options, self).__setitem__(key, value)
     except KeyError:
       try:
         short = short_options[key]
-        super(NewOptions, self).__setitem__(short['long'], short['value'])
+        super(Options, self).__setitem__(short['long'], short['value'])
       except KeyError:
         raise KeyError("The key '" + key + "' is not a valid option.")
 
@@ -146,7 +146,7 @@ class NewOptions(dict):
     return self.render()
 
 
-class Options(object):
+class OldOptions(object):
   def __init__(self, *args):
     self.re_opts = re.compile(u'(?:(?:^|\s)-(?P<sopt>[^-\s]+))|(?:(?:^|\s)--(?P<lopt>(?P<k>[^-\s=]+)=?(?P<v>[^-\s])?))')
     self._short = {}
@@ -233,7 +233,7 @@ if __name__ == '__main__':
   # j = Job()
   # j.parse('--progress -avi --filter="- */" --exclude=bob.avi --progress "/ho me/adrien/Videos/" root@al-mnemosyne.local::test/')
   # pprint(j.render())
-  op = NewOptions()
+  op = Options()
   op.parse('--progress -avi --filter="- */" --exclude=bob.avi --progress')
   pprint(op.render())
   # t = Target('al-mnemosyne.local::test/')
