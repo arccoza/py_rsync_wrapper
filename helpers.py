@@ -85,19 +85,26 @@ class Options(dict):
     return self.render()
 
 
+# TODO: Add password handling.
 class Job(object):
-  def __init__(self, *args):
+  def __init__(self, cmd=None):
     self._pat = re.compile('''(?P<options>\s*(?:-{1,2}[^\s\-"']+(?:["'].+?["'])?\s+)*)(?:(?P<src>[^\s"']+|(?:["'].+["']))\s*(?P<dest>[^\s"']+|(?:["'].+["'])))''')
     self.src = Target()
     self.dest = Target()
     self.options = Options()
 
+    if cmd:
+      self.parse(cmd)
+
   def parse(self, cmd):
+    if isinstance(cmd, Job):
+      return cmd
     mat = self._pat.match(cmd).groupdict()
     self.src.parse(mat['src'])
     self.dest.parse(mat['dest'])
     self.options.parse(mat['options'])
     # pprint(self.options)
+    return self
 
   def render(self, options='', src='', dest=''):
     parts = [
