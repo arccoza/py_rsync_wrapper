@@ -23,7 +23,8 @@ class Target(dict):
     self['user'] = self.get('user') # Force the 'at' key to update.
 
   def render(self):
-    return format('{user}{at}{server}{method}{module}{path}', **self)
+    at = '@' if self['user'] else None
+    return format('{user}{at}{server}{method}{module}{path}', at=at, **self)
 
   def update(self, *args, **kwargs):
     raise AttributeError("'" + self.__class__.__name__ +"' object has no attribute 'update'")
@@ -32,8 +33,6 @@ class Target(dict):
     if key not in self._parts:
       raise KeyError("The key '" + key + "' is not allowed.")
     super(Target, self).__setitem__(key, value)
-    if key == 'user':
-      super(Target, self).__setitem__('at', '@' if value else None)
 
   def __missing__(self, key):
     if key in self._parts:
