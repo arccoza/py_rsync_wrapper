@@ -24,7 +24,7 @@ class Target(dict):
 
   def render(self):
     at = '@' if self['user'] else None
-    return format('{user}{at}{server}{method}{module}{path}', at=at, **self)
+    return format('"{user}{at}{server}{method}{module}{path}"', at=at, **self)
 
   def update(self, *args, **kwargs):
     raise AttributeError("'" + self.__class__.__name__ +"' object has no attribute 'update'")
