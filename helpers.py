@@ -203,13 +203,14 @@ class Job(object):
     self.options.parse(mat['options'])
     # pprint(self.options)
 
-  def render(self, src=None, dest=None, options=None):
-    src = self.src or src
-    dest = self.dest or dest
-    options = self.options or options
-    pprint(self.__dict__)
-    return options.render() + ' ' + src.render() + ' ' + dest.render()
-    # return fmtr.format('{options} {src} {dest}', self.__dict__)
+  def render(self, options='', src='', dest=''):
+    parts = [
+      None if options is None else (options or self.options).render(),
+      None if src is None else (src or self.src).render(),
+      None if dest is None else (dest or self.dest).render(),
+    ]
+    parts = (v for v in parts if v)
+    return ' '.join(parts)
 
 
 class RsyncError(Exception):
@@ -230,12 +231,12 @@ if __name__ == '__main__':
   # a.grumble = True
   # a.parse(u'rsync -az -D --delete=1 --force vger.rutgers.edu::cvs/ /var/www/cvs/vger/')
   # pprint(a.__dict__)
-  # j = Job()
-  # j.parse('--progress -avi --filter="- */" --exclude=bob.avi --progress "/ho me/adrien/Videos/" root@al-mnemosyne.local::test/')
-  # pprint(j.render())
-  op = Options()
-  op.parse('--progress -avi --filter="- */" --exclude=bob.avi --progress')
-  pprint(op.render())
+  j = Job()
+  j.parse('--progress -avi --filter="- */" --exclude=bob.avi --progress "/ho me/adrien/Videos/" root@al-mnemosyne.local::test/')
+  pprint(j.render())
+  # op = Options()
+  # op.parse('--progress -avi --filter="- */" --exclude=bob.avi --progress')
+  # pprint(op.render())
   # t = Target('al-mnemosyne.local::test/')
   # t['bob'] = 'sam'
   # t['user']
