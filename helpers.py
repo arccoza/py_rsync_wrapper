@@ -6,7 +6,7 @@ from options import short_options, long_options
 
 class Target(dict):
   def __init__(self, map_it_url=None):
-    self.pat = re.compile(u'(?:(?:(?P<user>\S+)@)?(?P<server>[\w\-\.]+)(?P<method>:{1,2}))?(?P<module>[^:\\/\]]+)?(?P<path>/[^\0\r\n]*)')
+    self._pat = re.compile(u'(?:(?:(?P<user>\S+)@)?(?P<server>[\w\-\.]+)(?P<method>:{1,2}))?(?P<module>[^:\\/\]]+)?(?P<path>/[^\0\r\n]*)')
     self._parts = ('user', 'server', 'method', 'module', 'path')
     self._methods = ('::', ':', '')
     self._method_types = ('rsync', 'rsh', 'local')
@@ -19,8 +19,7 @@ class Target(dict):
 
   def parse(self, url):
     url = url[1:-1] if url[0] in '\'"' and url[-1] in '\'"' else url # Strip enclosing quotes if they exist.
-    super(Target, self).update(self.pat.search(url).groupdict())
-    self['user'] = self.get('user') # Force the 'at' key to update.
+    super(Target, self).update(self._pat.search(url).groupdict())
 
   def render(self):
     at = '@' if self['user'] else None
@@ -46,7 +45,7 @@ class Target(dict):
 
 class Options(dict):
   def __init__(self, map_it_opts=None):
-    self.pat = re.compile('''(?:(?:^|\s)-(?P<sopt>[^-\s]+))|(?:(?:^|\s)--(?P<lopt>(?P<k>[^\-\s=]+)=?(?P<v>[^\-\s"']+|(?:["'].+?["']))?))''')
+    self._pat = re.compile('''(?:(?:^|\s)-(?P<sopt>[^-\s]+))|(?:(?:^|\s)--(?P<lopt>(?P<k>[^\-\s=]+)=?(?P<v>[^\-\s"']+|(?:["'].+?["']))?))''')
 
     if map_it_opts:
       try:
@@ -55,7 +54,7 @@ class Options(dict):
         self.parse(map_it_opts)
 
   def parse(self, opts_str):
-    mats = self.pat.finditer(opts_str)
+    mats = self._pat.finditer(opts_str)
     for m in mats:
       m = m.groupdict()
       if m['k']:
@@ -88,13 +87,13 @@ class Options(dict):
 
 class Job(object):
   def __init__(self, *args):
-    self.pat = re.compile('''(?P<options>\s*(?:-{1,2}[^\s\-"']+(?:["'].+?["'])?\s+)*)(?:(?P<src>[^\s"']+|(?:["'].+["']))\s*(?P<dest>[^\s"']+|(?:["'].+["'])))''')
+    self._pat = re.compile('''(?P<options>\s*(?:-{1,2}[^\s\-"']+(?:["'].+?["'])?\s+)*)(?:(?P<src>[^\s"']+|(?:["'].+["']))\s*(?P<dest>[^\s"']+|(?:["'].+["'])))''')
     self.src = Target()
     self.dest = Target()
     self.options = Options()
 
   def parse(self, cmd):
-    mat = self.pat.match(cmd).groupdict()
+    mat = self._pat.match(cmd).groupdict()
     self.src.parse(mat['src'])
     self.dest.parse(mat['dest'])
     self.options.parse(mat['options'])
@@ -114,6 +113,7 @@ class RsyncError(Exception):
   def __init__(self, message, errors=None):
     super(RsyncError, self).__init__(message)
     self.errors = errors
+
 
 fmtr = PartialFormatter('', '')
 format = fmtr.format
