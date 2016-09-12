@@ -65,56 +65,43 @@ class Rsync(object):
 
     return {'short': short, 'long': long}
 
+  # TODO: Add cancel.
   def __call__(self, job):
     rex = self._rex
     cmd = None
+    expected = Expected()
 
-    # try:
-    #   cmd = job.render()
-    # except AttributeError:
-    #   if job is string_types:
-    #     cmd = job
-    #   else:
-    #     for j in job:
-    #       try:
-    #         cmd = j.render()
-    #       except AttributeError:
-    #         cmd = j
-    #       r = spawn(cmd)
-    #     cmd = None
-    # if cmd:
-    #   r = spawn(cmd)
-
-    try:
-      for j in job:
+    def jobinator(job=job):
+      try:
+        for j in job:
+          try:
+            j.render
+          except AttributeError:
+            if len(j) > 1:
+              j = Job(j)
+            else:
+              raise TypeError
+          yield j
+      except TypeError:
         try:
-          cmd = j.render()
+          job.render
         except AttributeError:
-          if len(j) > 1:
-            cmd = j
-          else:
-            raise TypeError()
-        # r = spawn(cmd)
-        pprint('---loop---')
-        pprint(cmd)
-    except TypeError:
+          job = Job(job)
+        yield job
+
+    for job in jobinator():
+      r = spawn(rex + ' ' + job.render())
       try:
-        cmd = job.render()
-      except AttributeError:
-        cmd = job
-      pprint('---single---')
-      pprint(cmd)
-      r = spawn(rex + ' ' + cmd)
-      expected = Expected()
-      try:
-        for exp in expected(r):
-          pprint(exp)
-          if exp == 'password':
+        for ev in expected(r):
+          # pprint(exp)
+          if ev['name'] == 'password':
             r.sendline('carbonscape')
           else:
-            pprint(r.match.groupdict())
+            # pprint(r.match.groupdict())
+            ev['job'] = job
+            yield ev
       except pexpect.EOF:
-        pprint('---EOF---')
+        pass
       
       # i = r.expect(['Password:', 'sending incremental file list', pexpect.EOF])
       # pprint(i)
@@ -166,8 +153,7 @@ class Rsync(object):
   def sync(self, job):
     pass
 
-re_doc_opts = re.compile(u'(?:(?:^\s-(?P<short>[^-\s,]),?)|(^\s*))(?:(?:\s--(?:(?:(?P<long>[^\s=]+)=?(?P<value>[^-\s]+)?(?:\s*(?P<desc>.*$)))))|(?:\s*same as(?P<same_as>\s--.*$)*))', re.MULTILINE)
-spawn = pexpect.spawn
+
 class Expected(OrderedDict):
   def __init__(self, regexs=None):
     self.filters = {}
@@ -188,9 +174,14 @@ class Expected(OrderedDict):
     re_list = list(self.keys())
     while not child.eof():
       index = child.expect(re_list)
-      # pprint('-----------------')
-      # pprint(child.match.re.pattern.decode(sys.stdout.encoding))
-      yield self[child.match.re.pattern.decode(sys.stdout.encoding)]
+      yield {
+        'name': self[child.match.re.pattern.decode(sys.stdout.encoding)],
+        'data': {k: v.decode(sys.stdout.encoding) for k, v in child.match.groupdict().items() if v}
+      }
+
+
+re_doc_opts = re.compile(u'(?:(?:^\s-(?P<short>[^-\s,]),?)|(^\s*))(?:(?:\s--(?:(?:(?P<long>[^\s=]+)=?(?P<value>[^-\s]+)?(?:\s*(?P<desc>.*$)))))|(?:\s*same as(?P<same_as>\s--.*$)*))', re.MULTILINE)
+spawn = pexpect.spawn
 
 
 
@@ -202,8 +193,22 @@ class Expected(OrderedDict):
 #   pprint(kwargs)
 
 r = Rsync()
-r('-avi --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/')
-# r('-avin --progress --filter="- */" ~/Videos/ root@al-mnemosyne.local::test/')
+# g = r('-avin --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/')
+g = r(['-avin --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/', 
+  '-avi --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/'])
+# g = r('-avin --progress --filter="- */" ~/Videos/ root@al-mnemosyne.local::test/')
+
+for ev in g:
+  pprint('----------------')
+  pprint(ev['name'])
+  try:
+    pprint(ev['data']['file'])
+  except KeyError:
+    pass
+  try:
+    pprint(ev['data']['percent'])
+  except KeyError:
+    pass
 
 # # pprint(r.get_options())
 # fut = r('--help')
