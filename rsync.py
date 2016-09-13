@@ -66,10 +66,11 @@ class Rsync(object):
     return {'short': short, 'long': long}
 
   # TODO: Add raw mode.
-  def __call__(self, job):
+  def __call__(self, job, raw=False):
     rex = self._rex
     cmd = None
-    expected = Expected()
+    expected = Expected() if not raw else Expected([('[Pp]assword:?', 'password'),
+      ('(?P<line>.*?)\r\n', 'line'), ('(?P<reline>.*?)\r', 'reline'),])
 
     try:
       job.render
@@ -77,6 +78,37 @@ class Rsync(object):
       job = Job(job)
 
     r = spawn(rex + ' ' + job.render())
+
+    # if raw:
+    #   i = r.expect(['[Pp]assword:?', pexpect.EOF, 'sending incremental file list'])
+    #   if i == 0:
+    #     count = -1
+    #     while count < 5 and not job._close:
+    #       count += 1
+    #       password = job._password
+    #       if password:
+    #         break
+    #       yield {
+    #         'line': r.match.string,
+    #         'job': job
+    #       }
+    #     else:
+    #       return r.close(True)
+    #     r.sendline(password)
+    #   elif i == 1:
+    #     return r.close(True)
+    #   else:
+    #     yield {
+    #       'line': r.match.string,
+    #       'job': job
+    #     }
+    #   while not r.eof():
+    #     line = r.readline()
+    #     yield {
+    #       'line': line,
+    #       'job': job
+    #     }
+    # else:
     try:
       for ev in expected(r):
         ev['job'] = job
@@ -229,7 +261,8 @@ spawn = pexpect.spawn
 #   pprint(kwargs)
 
 r = Rsync()
-g = r('-avin --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/')
+# g = r('-avin --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/')
+g = r('-avin --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/', raw=True)
 # g = r(['-avin --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/', 
 #   '-avi --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/'])
 # g = r('-avin --progress --filter="- */" ~/Videos/ root@al-mnemosyne.local::test/')
@@ -237,20 +270,23 @@ g = r('-avin --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.l
 count = 0
 for ev in g:
   pprint('----------------')
-  pprint(ev['name'])
+  print(ev['data'])
+  # if ev['line'] == b'Password: ':
+  #   ev['job'].password('carbonscape')
+  # pprint(ev['name'])
   if(ev['name'] == 'password'):
     count += 1
     pprint('ask for pass')
     if count > 4:
       ev['job'].password('carbonscape')
-  try:
-    pprint(ev['data']['file'])
-  except KeyError:
-    pass
-  try:
-    pprint(ev['data']['percent'])
-  except KeyError:
-    pass
+  # try:
+  #   pprint(ev['data']['file'])
+  # except KeyError:
+  #   pass
+  # try:
+  #   pprint(ev['data']['percent'])
+  # except KeyError:
+  #   pass
 
 # # pprint(r.get_options())
 # fut = r('--help')
