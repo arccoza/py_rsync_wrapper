@@ -78,37 +78,7 @@ class Rsync(object):
       job = Job(job)
 
     r = spawn(rex + ' ' + job.render())
-
-    # if raw:
-    #   i = r.expect(['[Pp]assword:?', pexpect.EOF, 'sending incremental file list'])
-    #   if i == 0:
-    #     count = -1
-    #     while count < 5 and not job._close:
-    #       count += 1
-    #       password = job._password
-    #       if password:
-    #         break
-    #       yield {
-    #         'line': r.match.string,
-    #         'job': job
-    #       }
-    #     else:
-    #       return r.close(True)
-    #     r.sendline(password)
-    #   elif i == 1:
-    #     return r.close(True)
-    #   else:
-    #     yield {
-    #       'line': r.match.string,
-    #       'job': job
-    #     }
-    #   while not r.eof():
-    #     line = r.readline()
-    #     yield {
-    #       'line': line,
-    #       'job': job
-    #     }
-    # else:
+    
     try:
       for ev in expected(r):
         ev['job'] = job
