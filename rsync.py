@@ -65,10 +65,8 @@ class Rsync(object):
 
     return {'short': short, 'long': long}
 
-  # TODO: Add raw mode.
   def __call__(self, job, raw=False):
     rex = self._rex
-    cmd = None
     expected = Expected() if not raw else Expected([('[Pp]assword:?', 'password'),
       ('(?P<line>.*?)\r\n', 'line'), ('(?P<reline>.*?)\r', 'reline'),])
 
@@ -78,7 +76,7 @@ class Rsync(object):
       job = Job(job)
 
     r = spawn(rex + ' ' + job.render())
-    
+
     try:
       for ev in expected(r):
         ev['job'] = job
@@ -95,89 +93,10 @@ class Rsync(object):
           else:
             return r.close(True)
           r.sendline(password)
-          # password = job._password
-          # while count < 5 and not password and not job._close:
-          #   yield ev
-          #   count += 1
-          #   password = job._password
-          # if password:
-          #   r.sendline(password)
-          # else:
-          #   return r.close(True)
         else:
           yield ev
     except pexpect.EOF:
       pass
-
-    # def jobinator(job=job):
-    #   try:
-    #     for j in job:
-    #       try:
-    #         j.render
-    #       except AttributeError:
-    #         if len(j) > 1:
-    #           j = Job(j)
-    #         else:
-    #           raise TypeError
-    #       yield j
-    #   except TypeError:
-    #     try:
-    #       job.render
-    #     except AttributeError:
-    #       job = Job(job)
-    #     yield job
-
-    # for job in jobinator():
-    #   r = spawn(rex + ' ' + job.render())
-    #   try:
-    #     for ev in expected(r):
-    #       # pprint(exp)
-    #       if ev['name'] == 'password':
-    #         r.sendline('carbonscape')
-    #       else:
-    #         # pprint(r.match.groupdict())
-    #         ev['job'] = job
-    #         yield ev
-    #   except pexpect.EOF:
-    #     pass
-      
-      # i = r.expect(['Password:', 'sending incremental file list', pexpect.EOF])
-      # pprint(i)
-      # if i == 0:
-      #   pprint('---0')
-      #   r.sendline('carbonscape')
-      #   i = r.expect(['Password:', 'sending incremental file list', pexpect.EOF])
-      # if i == 1:
-      #   pprint('---1')
-      #   # i = r.expect(['.*\r\n'])
-      #   # pprint(r.match)
-      #   # i = r.expect(['.*\r\n'])
-      #   # pprint(r.match)
-      #   # i = r.expect(['.*\r\n'])
-      #   # pprint(r.match)
-      #   while not r.eof():
-      #     line = r.readline()
-      #     pprint(line)
-      # if i == 2:
-      #   pprint('---2')
-      #   pprint(r.before.decode(sys.stdout.encoding))
-
-    
-    # args = list(args)
-    # args[0] = rex + ' ' + args[0]
-    # pprint(args[0])
-    # r = spawn(*args, **kwargs)
-    # i = r.expect(['Password:', pexpect.EOF])
-    # pprint(i)
-    # pprint(r.match)
-    # if(i == 0):
-    #   b = r.sendline('carbonscape')
-    #   pprint(b)
-    #   i = r.expect(pexpect.EOF)
-    #   pprint(r.before.decode(sys.stdout.encoding))
-    # else:
-    #   pprint(r.before.decode(sys.stdout.encoding))
-    
 
   def list(self, job, target='both'): #can be both|src|dest.
     pass
