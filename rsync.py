@@ -66,42 +66,79 @@ class Rsync(object):
     return {'short': short, 'long': long}
 
   # TODO: Add cancel.
+  # TODO: Add raw mode.
   def __call__(self, job):
     rex = self._rex
     cmd = None
     expected = Expected()
 
-    def jobinator(job=job):
-      try:
-        for j in job:
-          try:
-            j.render
-          except AttributeError:
-            if len(j) > 1:
-              j = Job(j)
-            else:
-              raise TypeError
-          yield j
-      except TypeError:
-        try:
-          job.render
-        except AttributeError:
-          job = Job(job)
-        yield job
+    try:
+      job.render
+    except AttributeError:
+      job = Job(job)
 
-    for job in jobinator():
-      r = spawn(rex + ' ' + job.render())
-      try:
-        for ev in expected(r):
-          # pprint(exp)
-          if ev['name'] == 'password':
-            r.sendline('carbonscape')
-          else:
-            # pprint(r.match.groupdict())
-            ev['job'] = job
+    r = spawn(rex + ' ' + job.render())
+    try:
+      for ev in expected(r):
+        ev['job'] = job
+        if job._close:
+          return r.close(True)
+        elif ev['name'] == 'password':
+          count = -1
+          while count < 5 and not job._close:
+            count += 1
+            password = job._password
+            if password:
+              break
             yield ev
-      except pexpect.EOF:
-        pass
+          else:
+            return r.close(True)
+          r.sendline(password)
+          # password = job._password
+          # while count < 5 and not password and not job._close:
+          #   yield ev
+          #   count += 1
+          #   password = job._password
+          # if password:
+          #   r.sendline(password)
+          # else:
+          #   return r.close(True)
+        else:
+          yield ev
+    except pexpect.EOF:
+      pass
+
+    # def jobinator(job=job):
+    #   try:
+    #     for j in job:
+    #       try:
+    #         j.render
+    #       except AttributeError:
+    #         if len(j) > 1:
+    #           j = Job(j)
+    #         else:
+    #           raise TypeError
+    #       yield j
+    #   except TypeError:
+    #     try:
+    #       job.render
+    #     except AttributeError:
+    #       job = Job(job)
+    #     yield job
+
+    # for job in jobinator():
+    #   r = spawn(rex + ' ' + job.render())
+    #   try:
+    #     for ev in expected(r):
+    #       # pprint(exp)
+    #       if ev['name'] == 'password':
+    #         r.sendline('carbonscape')
+    #       else:
+    #         # pprint(r.match.groupdict())
+    #         ev['job'] = job
+    #         yield ev
+    #   except pexpect.EOF:
+    #     pass
       
       # i = r.expect(['Password:', 'sending incremental file list', pexpect.EOF])
       # pprint(i)
@@ -193,14 +230,20 @@ spawn = pexpect.spawn
 #   pprint(kwargs)
 
 r = Rsync()
-# g = r('-avin --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/')
-g = r(['-avin --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/', 
-  '-avi --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/'])
+g = r('-avin --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/')
+# g = r(['-avin --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/', 
+#   '-avi --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/'])
 # g = r('-avin --progress --filter="- */" ~/Videos/ root@al-mnemosyne.local::test/')
 
+count = 0
 for ev in g:
   pprint('----------------')
   pprint(ev['name'])
+  if(ev['name'] == 'password'):
+    count += 1
+    pprint('ask for pass')
+    if count > 4:
+      ev['job'].password('carbonscape')
   try:
     pprint(ev['data']['file'])
   except KeyError:

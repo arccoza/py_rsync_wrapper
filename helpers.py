@@ -89,9 +89,12 @@ class Options(dict):
 class Job(object):
   def __init__(self, cmd=None):
     self._pat = re.compile('''(?P<options>\s*(?:-{1,2}[^\s\-"']+(?:["'].+?["'])?\s+)*)(?:(?P<src>[^\s"']+|(?:["'].+["']))\s*(?P<dest>[^\s"']+|(?:["'].+["'])))''')
+    self._password = None
+    self._close = None
+    self.options = Options()
     self.src = Target()
     self.dest = Target()
-    self.options = Options()
+    # self.password = None
 
     if cmd:
       self.parse(cmd)
@@ -115,6 +118,26 @@ class Job(object):
     parts = (v for v in parts if v)
     return ' '.join(parts)
 
+  def password(self, password=None):
+    if password:
+      self._password = password
+      return password
+    else:
+      return self._password
+
+  def close(self, close=True):
+    if close:
+      self._close = close
+      return close
+    else:
+      return self._close
+
+  def __getattribute__(self, name):
+    ret = super(Job, self).__getattribute__(name)
+    if name in ('_password', '_close'):
+      super(Job, self).__setattr__(name, None)
+    return ret
+
 
 class RsyncError(Exception):
   def __init__(self, message, errors=None):
@@ -137,7 +160,11 @@ if __name__ == '__main__':
   # pprint(a.__dict__)
   j = Job()
   j.parse('--progress -avi --filter="- */" --exclude=bob.avi --progress "/ho me/adrien/Videos/" root@al-mnemosyne.local::test/')
-  pprint(j.render())
+  # pprint(j.render())
+  pprint(j.close(None))
+  j.close()
+  pprint(j.close(None))
+  pprint(j.close(None))
   # op = Options()
   # op.parse('--progress -avi --filter="- */" --exclude=bob.avi --progress')
   # pprint(op.render())
