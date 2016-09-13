@@ -85,7 +85,6 @@ class Options(dict):
     return self.render()
 
 
-# TODO: Add password handling.
 class Job(object):
   def __init__(self, cmd=None):
     self._pat = re.compile('''(?P<options>\s*(?:-{1,2}[^\s\-"']+(?:["'].+?["'])?\s+)*)(?:(?P<src>[^\s"']+|(?:["'].+["']))\s*(?P<dest>[^\s"']+|(?:["'].+["'])))''')
@@ -94,7 +93,6 @@ class Job(object):
     self.options = Options()
     self.src = Target()
     self.dest = Target()
-    # self.password = None
 
     if cmd:
       self.parse(cmd)
@@ -106,7 +104,6 @@ class Job(object):
     self.src.parse(mat['src'])
     self.dest.parse(mat['dest'])
     self.options.parse(mat['options'])
-    # pprint(self.options)
     return self
 
   def render(self, options='', src='', dest=''):
@@ -132,6 +129,7 @@ class Job(object):
     else:
       return self._close
 
+  # Make sure _password and _close are oneshot reads; they are reset after the first get.
   def __getattribute__(self, name):
     ret = super(Job, self).__getattribute__(name)
     if name in ('_password', '_close'):

@@ -65,7 +65,6 @@ class Rsync(object):
 
     return {'short': short, 'long': long}
 
-  # TODO: Add cancel.
   # TODO: Add raw mode.
   def __call__(self, job):
     rex = self._rex
