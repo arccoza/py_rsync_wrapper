@@ -46,6 +46,26 @@ class Target(dict):
 class Options(dict):
   def __init__(self, map_it_opts=None):
     self._pat = re.compile('''(?:(?:^|\s)-(?P<sopt>[^-\s]+))|(?:(?:^|\s)--(?P<lopt>(?P<k>[^\-\s=]+)=?(?P<v>[^\-\s"']+|(?:["'].+?["']))?))''')
+    self._enforced = {
+      'verbose': None,
+      'progress': None,
+      'itemize-changes': None,
+      'info': False,
+      'debug': False,
+      'msgs2stderr': False,
+      'quiet': False,
+      '8-bit-output': False,
+      'out-format': False,
+      'version': False,
+      'help': False,
+      'daemon': False,
+      'address': False,
+      'config': False,
+      'dparam': False,
+      'no-detach': False,
+      'port': False,
+      'sockopts': False,
+    }
 
     if map_it_opts:
       try:
