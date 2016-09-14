@@ -64,7 +64,7 @@ class Options(dict):
           self[o] = None
 
   def render(self):
-    opts = (format('--{opt}{eq}{val}', opt=k, val=v, eq='=' if v else None) for k, v in self.items())
+    opts = (format('--{opt}{eq}{val}', opt=k, val=v, eq='=' if v else None) for k, v in self.items() if v is not False)
     return ' '.join(opts)
 
   def update(self, *args, **kwargs):
@@ -77,7 +77,7 @@ class Options(dict):
     except KeyError:
       try:
         short = short_options[key]
-        super(Options, self).__setitem__(short['long'], short['value'])
+        super(Options, self).__setitem__(short['long'], value)
       except KeyError:
         raise KeyError("The key '" + key + "' is not a valid option.")
 
@@ -158,11 +158,11 @@ if __name__ == '__main__':
   # pprint(a.__dict__)
   j = Job()
   j.parse('--progress -avi --filter="- */" --exclude=bob.avi --progress "/ho me/adrien/Videos/" root@al-mnemosyne.local::test/')
-  # pprint(j.render())
-  pprint(j.close(None))
-  j.close()
-  pprint(j.close(None))
-  pprint(j.close(None))
+  pprint(j.render())
+  # pprint(j.close(None))
+  # j.close()
+  # pprint(j.close(None))
+  # pprint(j.close(None))
   # op = Options()
   # op.parse('--progress -avi --filter="- */" --exclude=bob.avi --progress')
   # pprint(op.render())
