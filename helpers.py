@@ -83,8 +83,11 @@ class Options(dict):
         for o in m['sopt']:
           self[o] = None
 
-  def render(self):
-    opts = (format('--{opt}{eq}{val}', opt=k, val=v, eq='=' if v else None) for k, v in self.items() if v is not False)
+  def render(self, raw=False):
+    opts = self.copy()
+    if not raw:
+      opts.update(self._enforced)
+    opts = (format('--{opt}{eq}{val}', opt=k, val=v, eq='=' if v else None) for k, v in opts.items() if v is not False)
     return ' '.join(opts)
 
   def update(self, *args, **kwargs):
@@ -177,7 +180,7 @@ if __name__ == '__main__':
   # a.parse(u'rsync -az -D --delete=1 --force vger.rutgers.edu::cvs/ /var/www/cvs/vger/')
   # pprint(a.__dict__)
   j = Job()
-  j.parse('--progress -avi --filter="- */" --exclude=bob.avi --progress "/ho me/adrien/Videos/" root@al-mnemosyne.local::test/')
+  j.parse('--progress -avi --debug=something --filter="- */" --exclude=bob.avi --progress "/ho me/adrien/Videos/" root@al-mnemosyne.local::test/')
   pprint(j.render())
   # pprint(j.close(None))
   # j.close()
