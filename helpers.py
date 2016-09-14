@@ -129,9 +129,9 @@ class Job(object):
     self.options.parse(mat['options'])
     return self
 
-  def render(self, options='', src='', dest=''):
+  def render(self, options='', src='', dest='', raw=False):
     parts = [
-      None if options is None else (options or self.options).render(),
+      None if options is None else (options or self.options).render(raw=raw),
       None if src is None else (src or self.src).render(),
       None if dest is None else (dest or self.dest).render(),
     ]

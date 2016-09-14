@@ -75,7 +75,7 @@ class Rsync(object):
     except AttributeError:
       job = Job(job)
 
-    r = spawn(rex + ' ' + job.render())
+    r = spawn(rex + ' ' + job.render(raw=raw))
 
     try:
       for ev in expected(r):
@@ -150,8 +150,8 @@ spawn = pexpect.spawn
 #   pprint(kwargs)
 
 r = Rsync()
-# g = r('-avin --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/')
-g = r('-avin --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/', raw=True)
+g = r('-avin --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/')
+# g = r('-avin --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/', raw=True)
 # g = r(['-avin --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/', 
 #   '-avi --progress --filter="- */" /home/adrien/Videos/ root@al-mnemosyne.local::test/'])
 # g = r('-avin --progress --filter="- */" ~/Videos/ root@al-mnemosyne.local::test/')
